@@ -1,6 +1,6 @@
-= soroban
+= Soroban: Parse and calculate Excel Formulas
 
-Description goes here.
+...
 
 == Contributing to soroban
  
@@ -14,6 +14,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2012 Jason Hutchens. See LICENSE.txt for
-further details.
-
+Copyright (c) 2012 Agworld Pty. Ltd. See LICENSE.txt for further details.
