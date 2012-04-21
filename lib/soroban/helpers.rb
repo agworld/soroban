@@ -1,4 +1,10 @@
+require 'soroban/parser'
+
 module Soroban
+
+  def self.parser
+    @@parser ||= SorobanParser.new
+  end
 
   def self.formula?(data)
     return false unless data.kind_of?(String)

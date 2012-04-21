@@ -1,6 +1,5 @@
 require 'soroban/helpers'
 require 'soroban/functions'
-require 'soroban/parser'
 require 'soroban/walker'
 require 'soroban/cell'
 
@@ -8,10 +7,6 @@ module Soroban
 
   class Sheet
     include Functions
-
-    def initialize
-      @parser = SorobanParser.new
-    end
 
     def method_missing(method, *args, &block)
       # TODO: handle adding a function
@@ -61,14 +56,14 @@ module Soroban
       internal = "_#{label}"
       instance_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{label}?
-          @#{internal}.contents
+          @#{internal}.ruby
         end
         def #{internal}
           @#{internal}.get
         end
       EOV
       _bind(label, label)
-      instance_variable_set("@#{internal}", Cell.new(_convert(contents), binding))
+      instance_variable_set("@#{internal}", Cell.new(contents, binding))
     end
 
     def _bind(name, label)
@@ -78,16 +73,9 @@ module Soroban
           #{internal}
         end
         def #{name}=(contents)
-          @#{internal}.set(_convert(contents))
+          @#{internal}.set(contents)
         end
       EOV
-    end
-
-    def _convert(contents)
-      return contents unless Soroban::formula?(contents)
-      tree = @parser.parse(contents.to_s)
-      raise Soroban::ParseError, @parser.failure_reason if tree.nil?
-      tree.convert
     end
 
   end
