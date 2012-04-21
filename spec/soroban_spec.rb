@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Soroban" do
-  it "fails" do
-    fail "hey buddy, you should probably rename this file and start specing for real"
+  it "can create a new sheet" do
+    s = Soroban::Sheet.new
   end
 end
