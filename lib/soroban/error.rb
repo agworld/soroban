@@ -6,4 +6,7 @@ module Soroban
   class RecursionError < StandardError
   end
 
+  class ReferenceError < StandardError
+  end
+
 end

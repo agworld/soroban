@@ -8,8 +8,14 @@ module Soroban
   class Sheet
     include Functions
 
+    attr_reader :cells, :bindings
+
+    def initialize
+      @cells = []
+      @bindings = {}
+    end
+
     def method_missing(method, *args, &block)
-      # TODO: handle adding a function
       if match = /^([a-z][\w]*)=$/i.match(method.to_s)
         _add(match[1], args[0])
         return
@@ -18,15 +24,17 @@ module Soroban
     end
 
     def define(function, callback)
-      # TODO: store a lambda
     end
 
     def set(label_or_range, contents)
-      # TODO: if a range is specified, contents must be an array or hash
       _add(label_or_range, contents)
     end
 
     def bind(name, label)
+      unless @cells.include?(label.to_sym)
+        raise Soroban::ReferenceError, "Cannot bind '#{name}' to non-existent cell '#{label}'"
+      end
+      @bindings[name.to_sym] = label.to_sym
       _bind(name, label)
     end
 
@@ -38,21 +46,14 @@ module Soroban
       Walker.new(range, binding)
     end
 
-    def cells
-    end
-
-    def bindings
-    end
-
-    def functions
-    end
-
     def undefined
+      []
     end
 
   private
 
     def _add(label, contents)
+      @cells << label.to_sym
       internal = "_#{label}"
       instance_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{label}?
