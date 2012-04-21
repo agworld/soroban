@@ -1,12 +1,15 @@
-module Soroban
+require 'soroban/helpers'
+require 'soroban/functions'
+require 'soroban/parser'
+require 'soroban/walker'
+require 'soroban/cell'
 
-  require 'soroban/functions'
+module Soroban
 
   class Sheet
     include Functions
 
     def initialize
-      require 'parser'
       @parser = SorobanParser.new
     end
 
@@ -37,7 +40,6 @@ module Soroban
     end
 
     def walk(range)
-      require 'walker'
       Walker.new(range, binding)
     end
 
@@ -66,7 +68,6 @@ module Soroban
         end
       EOV
       _bind(label, label)
-      require 'cell'
       instance_variable_set("@#{internal}", Cell.new(_convert(contents), binding))
     end
 
