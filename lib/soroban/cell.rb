@@ -11,18 +11,18 @@ module Soroban
       @touched = false
     end
 
+    def set(contents)
+      contents = contents.to_s
+      contents = "'#{contents}'" if Soroban::unknown?(contents)
+      @excel, @ruby = contents, _convert(contents)
+    end
+
     def get
       raise Soroban::RecursionError, "" if @touched
       @touched = true
       eval(@ruby, @binding)
     ensure
       @touched = false
-    end
-
-    def set(contents)
-      contents = contents.to_s
-      contents = "'#{contents}'" if Soroban::unknown?(contents)
-      @excel, @ruby = contents, _convert(contents)
     end
 
   private

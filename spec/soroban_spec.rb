@@ -13,11 +13,6 @@ describe "Soroban" do
     sheet.f.should eq(4)
   end
 
-  it "can rewrite Excel to Ruby" do
-    sheet.A1 = "=foo(A1^2<>3)"
-    sheet.A1?.should eq("func_foo(@A1.get**2!=3)")
-  end
-
   it "can iterate over a collection of cells" do
     sheet.A1 = 'a'
     sheet.B1 = 'b'
@@ -78,10 +73,10 @@ describe "Soroban" do
     Soroban::functions.should include 'FOO'
   end
 
-  it "can report on undefined cells" do
+  it "can report on missing cells" do
     sheet.A3 = "=A2+foo(A3:B4)"
     expected = [:A2, :A3, :A3, :B3, :B4 ]
-    sheet.undefined.map.sort.should eq(expected)
+    sheet.missing.map.sort.should eq(expected)
   end
 
   it "can detect loops when running formulas" do
