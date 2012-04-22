@@ -68,7 +68,7 @@ describe "Soroban" do
   end
 
   it "can define new functions" do
-    sheet.func_foo = lambda { |a, b| 2 * a + b / 2 }
+    sheet.define(:FOO, lambda { |a, b| 2 * a + b / 2 })
     sheet.A1 = 7
     sheet.A2 = 8
     sheet.A3 = "=foo(A1, A2)"

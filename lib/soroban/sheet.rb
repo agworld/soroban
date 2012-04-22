@@ -13,10 +13,14 @@ module Soroban
     def initialize
       @cells = []
       @bindings = {}
+      @functions = {}
     end
 
     def method_missing(method, *args, &block)
-      if match = /^([a-z][\w]*)=$/i.match(method.to_s)
+      if match = /^func_(.*)$/i.match(method.to_s)
+        function = match[1].upcase.to_sym
+        return instance_exec(*args, &@functions[function]) if @functions[function]
+      elsif match = /^([a-z][\w]*)=$/i.match(method.to_s)
         _add(match[1], args[0])
         return
       end
@@ -24,6 +28,7 @@ module Soroban
     end
 
     def define(function, callback)
+      _define(function, callback)
     end
 
     def set(label_or_range, contents)
@@ -45,11 +50,19 @@ module Soroban
       Walker.new(range, binding)
     end
 
+    def functions
+      @functions.keys.map { |f| f.to_s } + methods.select { |m| m =~ /^func_/ }.map { |m| m.gsub('func_', '').upcase }
+    end
+
     def undefined
       []
     end
 
   private
+
+    def _define(function, callback)
+      @functions[function] = callback
+    end
 
     def _add(label, contents)
       @cells << label.to_sym
