@@ -34,12 +34,11 @@ module Soroban
       unless @cells.include?(label.to_sym)
         raise Soroban::ReferenceError, "Cannot bind '#{name}' to non-existent cell '#{label}'"
       end
-      @bindings[name.to_sym] = label.to_sym
       _bind(name, label)
     end
 
     def get(label_or_name)
-      eval("_#{label_or_name}", binding)
+      eval("@#{label_or_name}.get", binding)
     end
 
     def walk(range)
@@ -54,27 +53,34 @@ module Soroban
 
     def _add(label, contents)
       @cells << label.to_sym
-      internal = "_#{label}"
+      internal = "@#{label}"
       instance_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{label}?
-          @#{internal}.ruby
-        end
-        def #{internal}
-          @#{internal}.get
+          #{internal}.ruby
         end
       EOV
-      _bind(label, label)
-      instance_variable_set("@#{internal}", Cell.new(contents, binding))
+      _expose(internal, label)
+      instance_variable_set(internal, Cell.new(contents, binding))
     end
 
     def _bind(name, label)
-      internal = "_#{label}"
+      @bindings[name.to_sym] = label.to_sym
+      internal = "@#{label}"
+      instance_eval <<-EOV, __FILE__, __LINE__ + 1
+        def #{label}?
+          "#{name} -> #{label}"
+        end
+      EOV
+      _expose(internal, name)
+    end
+
+    def _expose(internal, name)
       instance_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{name}
-          #{internal}
+          #{internal}.get
         end
         def #{name}=(contents)
-          @#{internal}.set(contents)
+          #{internal}.set(contents)
         end
       EOV
     end

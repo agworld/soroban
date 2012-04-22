@@ -13,7 +13,7 @@ describe "Soroban" do
 
   it "can rewrite Excel to Ruby" do
     sheet.A1 = "=foo(A1^2<>3)"
-    sheet.A1?.should eq("=func_foo(_A1**2!=3)")
+    sheet.A1?.should eq("=func_foo(@A1.get**2!=3)")
   end
 
   it "can iterate over a collection of cells" do

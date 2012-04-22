@@ -8,7 +8,7 @@ module Soroban
       return nil if i.nil?
       (0...i).each { fr.next! }
       (1...col).each { fc.next! }
-      eval("_#{fc}#{fr}")
+      eval("@#{fc}#{fr}.get")
     end
 
   end

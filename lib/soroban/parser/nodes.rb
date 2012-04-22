@@ -2,14 +2,14 @@ module Soroban
 
   class Identifier < Treetop::Runtime::SyntaxNode
     def rewrite(value)
-      "_#{value}"
+      "@#{value}.get"
     end
   end
 
   class Function < Treetop::Runtime::SyntaxNode
     def rewrite(value)
       match = /^([^(]*)(.*)$/.match(value)
-      "func#{match[1].downcase}#{match[2]}"
+      "func_#{match[1].downcase.slice(1..-5)}#{match[2]}"
     end
   end
 

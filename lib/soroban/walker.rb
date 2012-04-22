@@ -9,7 +9,7 @@ module Soroban
     def each
       (@fc..@tc).each do |col|
         (@fr..@tr).each do |row|
-          yield eval("_#{col}#{row}", @binding)
+          yield eval("@#{col}#{row}.get", @binding)
         end
       end
     end
