@@ -70,12 +70,12 @@ describe "Soroban" do
   end
 
   it "can define new functions" do
-    sheet.define(:FOO, lambda { |a, b| 2 * a + b / 2 })
+    Soroban::define :FOO => lambda { |a, b| 2 * a + b / 2 }
     sheet.A1 = 7
     sheet.A2 = 8
     sheet.A3 = "=foo(A1, A2)"
     sheet.A3.should eq(18)
-    sheet.functions.should include 'FOO'
+    Soroban::functions.should include 'FOO'
   end
 
   it "can report on undefined cells" do

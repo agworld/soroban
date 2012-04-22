@@ -1,11 +1,3 @@
-module Soroban
-
-  module Functions
-
-    def func_if(val, if_true, if_false)
-      val ? if_true : if_false
-    end
-
-  end
-
-end
+Soroban::define :IF => lambda { |val, if_true, _if_false|
+  val ? if_true : if_false
+}

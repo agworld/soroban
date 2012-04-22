@@ -9,4 +9,7 @@ module Soroban
   class ReferenceError < StandardError
   end
 
+  class UndefinedError < StandardError
+  end
+
 end
