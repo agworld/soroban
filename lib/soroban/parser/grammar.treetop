@@ -1,6 +1,6 @@
 grammar Soroban
   rule formula
-    '=' space? logical / string / number / boolean
+    '=' space? logical <Formula> / string / number / boolean
   end
   rule logical
     and ( space? 'or' space? and )*

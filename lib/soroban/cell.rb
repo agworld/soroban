@@ -12,23 +12,23 @@ module Soroban
     end
 
     def get
-      return @excel unless Soroban::formula?(@excel)
       raise Soroban::RecursionError, "" if @touched
       @touched = true
-      eval(@ruby.slice(1..-1), @binding)
+      eval(@ruby, @binding)
     ensure
       @touched = false
     end
 
     def set(contents)
+      contents = contents.to_s
+      contents = "'#{contents}'" if Soroban::unknown?(contents)
       @excel, @ruby = contents, _convert(contents)
     end
 
   private
 
     def _convert(contents)
-      return contents unless Soroban::formula?(contents)
-      tree = Soroban::parser.parse(contents.to_s)
+      tree = Soroban::parser.parse(contents)
       raise Soroban::ParseError, Soroban::parser.failure_reason if tree.nil?
       tree.convert
     end

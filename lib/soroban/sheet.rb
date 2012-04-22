@@ -64,7 +64,9 @@ module Soroban
       @functions[function] = callback
     end
 
-    def _add(label, contents)
+    # TODO: accept array and hash
+    def _add(label_or_range, contents)
+      label = label_or_range
       @cells << label.to_sym
       internal = "@#{label}"
       instance_eval <<-EOV, __FILE__, __LINE__ + 1

@@ -1,5 +1,11 @@
 module Soroban
 
+  class Formula < Treetop::Runtime::SyntaxNode
+    def rewrite(value)
+      value.gsub(/^= */, '')
+    end
+  end
+
   class Identifier < Treetop::Runtime::SyntaxNode
     def rewrite(value)
       "@#{value}.get"

@@ -49,7 +49,7 @@ module Soroban
       end
     end
     if s1.last
-      r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
+      r1 = instantiate_node(Formula,input, i1...index, s1)
       r1.extend(Formula0)
     else
       @index = i1

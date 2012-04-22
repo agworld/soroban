@@ -9,11 +9,13 @@ describe "Soroban" do
     sheet.y = 3
     sheet.f = "=x+y"
     sheet.f.should eq(5)
+    sheet.x -= 1
+    sheet.f.should eq(4)
   end
 
   it "can rewrite Excel to Ruby" do
     sheet.A1 = "=foo(A1^2<>3)"
-    sheet.A1?.should eq("=func_foo(@A1.get**2!=3)")
+    sheet.A1?.should eq("func_foo(@A1.get**2!=3)")
   end
 
   it "can iterate over a collection of cells" do
@@ -73,9 +75,7 @@ describe "Soroban" do
     sheet.A2 = 8
     sheet.A3 = "=foo(A1, A2)"
     sheet.A3.should eq(18)
-    sheet.functions.each do |name|
-      # TODO
-    end
+    sheet.functions.should include 'FOO'
   end
 
   it "can report on undefined cells" do
