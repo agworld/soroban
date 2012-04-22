@@ -6,7 +6,7 @@ require 'soroban/cell'
 module Soroban
 
   class Sheet
-    attr_reader :cells, :bindings
+    attr_reader :bindings
 
     def initialize
       @cells = []
@@ -23,7 +23,22 @@ module Soroban
     end
 
     def set(label_or_range, contents)
-      _add(label_or_range, contents)
+      unless range = Soroban::getRange(label_or_range)
+        return _add(label_or_range, contents)
+      end
+      fc, fr, tc, tr = range
+      if fc == tc || fr == tr
+        raise ArgumentError, "Expecting an array when setting #{label_or_range}" unless contents.kind_of? Array
+        cc, cr = fc, fr
+        contents.each do |item|
+          set("#{cc}#{cr}", item)
+          cc.next! if fr == tr
+          cr.next! if fc == tc
+        end
+        raise Soroban::ReferenceError, "Supplied array doesn't match range length" if cc != tc && cr != tr
+      else
+        raise ArgumentError, "Can only set cells or 1-dimensional ranges of cells"
+      end
     end
 
     def get(label_or_name)
@@ -41,14 +56,17 @@ module Soroban
       Walker.new(range, binding)
     end
 
+    def cells
+      @cells.map { |label| label.to_s }.zip( @cells.map { |label| eval("@#{label}.excel") } )
+    end
+
     def missing
       []
     end
 
   private
 
-    def _add(label_or_range, contents)
-      label = label_or_range
+    def _add(label, contents)
       @cells << label.to_sym
       internal = "@#{label}"
       _expose(internal, label)

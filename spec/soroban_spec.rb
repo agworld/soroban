@@ -39,16 +39,17 @@ describe "Soroban" do
   end
 
   it "can set a hash" do
-    sheet.set("A1:B3", { 'one' => 'mot', 'two' => 'hai', 'three' => 'bah' } )
-    sheet.C1 = '=VLOOKUP(A1:A5)'
-    sheet.B1.should eq(15)
+    sheet.set("A1:A3", [ 'one', 'two', 'three' ])
+    sheet.set("B1:B3", [ 'mop', 'hai', 'bah' ])
+    sheet.C1 = '=VLOOKUP("two", A1:B3, 2, 0)'
+    sheet.C1.should eq('hai')
   end
 
   it "can iterate over all cells" do
-    sheet.set("A1:B3", { 'one' => 'mot', 'two' => 'hai', 'three' => 'bah' } )
-    sheet.cells.each do |label, contents|
-      # TODO
-    end
+    sheet.set("A1:A3", [ 1, 2, 3 ])
+    sheet.set("B1:B3", [ 4, 5, 6 ])
+    sheet.set("C1:C3", [ 7, 8, 9 ])
+    sheet.cells.map { |label, contents| contents.to_i }.sort.should eq [1,2,3,4,5,6,7,8,9]
   end
 
   it "can bind variables to cells" do
