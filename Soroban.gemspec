@@ -51,7 +51,7 @@ Gem::Specification.new do |s|
     "spec/soroban_spec.rb",
     "spec/spec_helper.rb"
   ]
-  s.homepage = "http://github.com/jasonhutchens/soroban"
+  s.homepage = "https://github.com/agworld/soroban"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
