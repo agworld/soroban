@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "Soroban"
   gem.homepage = "http://github.com/jasonhutchens/soroban"
   gem.license = "MIT"
-  gem.summary = ""
-  gem.description = ""
+  gem.summary = "Soroban is a calculating engine that understands Excel formulas."
+  gem.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
   gem.email = "jason.hutchens@agworld.com.au"
   gem.authors = ["Jason Hutchens"]
   # dependencies defined in Gemfile
