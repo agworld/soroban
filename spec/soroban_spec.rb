@@ -76,8 +76,8 @@ describe "Soroban" do
 
   it "can report on missing cells" do
     sheet.A3 = "=A2+foo(A3:B4)"
-    expected = [:A2, :A3, :A3, :B3, :B4 ]
-    sheet.missing.map.sort.should eq(expected)
+    expected = [:A2, :A4, :B3, :B4 ]
+    sheet.missing.should =~ expected
   end
 
   it "can detect loops when running formulas" do

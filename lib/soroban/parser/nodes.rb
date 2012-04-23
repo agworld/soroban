@@ -10,12 +10,15 @@ module Soroban
     def rewrite(value)
       "@#{value}.get"
     end
+    def extract(value)
+      value.to_sym
+    end
   end
 
   class Function < Treetop::Runtime::SyntaxNode
     def rewrite(value)
       match = /^([^(]*)(.*)$/.match(value)
-      "func_#{match[1].downcase.slice(1..-5)}#{match[2]}"
+      "func_#{match[1].downcase}#{match[2]}"
     end
   end
 
@@ -46,6 +49,16 @@ module Soroban
   class Range < Treetop::Runtime::SyntaxNode
     def rewrite(value)
       "'#{value}'"
+    end
+    def extract(value)
+      fc, fr, tc, tr = Soroban::getRange(value) 
+      retval = []
+      (fc..tc).each do |cc|
+        (fr..tr).each do |cr|
+          retval << "#{cc}#{cr}".to_sym
+        end
+      end
+      retval
     end
   end
 

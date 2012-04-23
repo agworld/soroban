@@ -948,39 +948,44 @@ module Soroban
           if r11
             r0 = r11
           else
-            r12 = _nt_identifier
+            r12 = _nt_boolean
             if r12
               r0 = r12
             else
-              r13 = _nt_string
+              r13 = _nt_identifier
               if r13
                 r0 = r13
               else
-                i14, s14 = index, []
-                if has_terminal?('-', false, index)
-                  r15 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                  @index += 1
-                else
-                  terminal_parse_failure('-')
-                  r15 = nil
-                end
-                s14 << r15
-                if r15
-                  r16 = _nt_value
-                  s14 << r16
-                end
-                if s14.last
-                  r14 = instantiate_node(SyntaxNode,input, i14...index, s14)
-                  r14.extend(Value1)
-                else
-                  @index = i14
-                  r14 = nil
-                end
+                r14 = _nt_string
                 if r14
                   r0 = r14
                 else
-                  @index = i0
-                  r0 = nil
+                  i15, s15 = index, []
+                  if has_terminal?('-', false, index)
+                    r16 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                    @index += 1
+                  else
+                    terminal_parse_failure('-')
+                    r16 = nil
+                  end
+                  s15 << r16
+                  if r16
+                    r17 = _nt_value
+                    s15 << r17
+                  end
+                  if s15.last
+                    r15 = instantiate_node(SyntaxNode,input, i15...index, s15)
+                    r15.extend(Value1)
+                  else
+                    @index = i15
+                    r15 = nil
+                  end
+                  if r15
+                    r0 = r15
+                  else
+                    @index = i0
+                    r0 = nil
+                  end
                 end
               end
             end
@@ -995,10 +1000,6 @@ module Soroban
   end
 
   module Function0
-    def identifier
-      elements[0]
-    end
-
   end
 
   def _nt_function
@@ -1013,50 +1014,69 @@ module Soroban
     end
 
     i0, s0 = index, []
-    r1 = _nt_identifier
+    s1, i1 = [], index
+    loop do
+      if has_terminal?('\G[a-zA-Z]', true, index)
+        r2 = true
+        @index += 1
+      else
+        r2 = nil
+      end
+      if r2
+        s1 << r2
+      else
+        break
+      end
+    end
+    if s1.empty?
+      @index = i1
+      r1 = nil
+    else
+      r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
+    end
     s0 << r1
     if r1
       if has_terminal?('(', false, index)
-        r2 = instantiate_node(SyntaxNode,input, index...(index + 1))
+        r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
         @index += 1
       else
         terminal_parse_failure('(')
-        r2 = nil
+        r3 = nil
       end
-      s0 << r2
-      if r2
-        r4 = _nt_space
-        if r4
-          r3 = r4
+      s0 << r3
+      if r3
+        r5 = _nt_space
+        if r5
+          r4 = r5
         else
-          r3 = instantiate_node(SyntaxNode,input, index...index)
+          r4 = instantiate_node(SyntaxNode,input, index...index)
         end
-        s0 << r3
-        if r3
-          r6 = _nt_arguments
-          if r6
-            r5 = r6
+        s0 << r4
+        if r4
+          r7 = _nt_arguments
+          if r7
+            r6 = r7
           else
-            r5 = instantiate_node(SyntaxNode,input, index...index)
+            r6 = instantiate_node(SyntaxNode,input, index...index)
           end
-          s0 << r5
-          if r5
-            r8 = _nt_space
-            if r8
-              r7 = r8
+          s0 << r6
+          if r6
+            r9 = _nt_space
+            if r9
+              r8 = r9
             else
-              r7 = instantiate_node(SyntaxNode,input, index...index)
+              r8 = instantiate_node(SyntaxNode,input, index...index)
             end
-            s0 << r7
-            if r7
+            s0 << r8
+            if r8
               if has_terminal?(')', false, index)
-                r9 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                r10 = instantiate_node(SyntaxNode,input, index...(index + 1))
                 @index += 1
               else
                 terminal_parse_failure(')')
-                r9 = nil
+                r10 = nil
               end
-              s0 << r9
+              s0 << r10
             end
           end
         end

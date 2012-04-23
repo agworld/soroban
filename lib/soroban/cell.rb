@@ -3,12 +3,13 @@ require 'soroban/parser'
 module Soroban
 
   class Cell
-    attr_reader :excel, :ruby
+    attr_reader :excel, :ruby, :dependencies
 
     def initialize(contents, binding)
-      set(contents)
+      @dependencies = []
       @binding = binding
       @touched = false
+      set(contents)
     end
 
     def set(contents)
@@ -30,7 +31,7 @@ module Soroban
     def _convert(contents)
       tree = Soroban::parser.parse(contents)
       raise Soroban::ParseError, Soroban::parser.failure_reason if tree.nil?
-      tree.convert
+      tree.convert(@dependencies)
     end
 
   end

@@ -17,6 +17,12 @@ module Soroban
 
 end
 
-require 'soroban/functions/if'
+require 'soroban/functions/average'
 require 'soroban/functions/sum'
 require 'soroban/functions/vlookup'
+require 'soroban/functions/if'
+require 'soroban/functions/and'
+require 'soroban/functions/or'
+require 'soroban/functions/not'
+require 'soroban/functions/max'
+require 'soroban/functions/min'

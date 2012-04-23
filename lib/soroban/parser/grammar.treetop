@@ -33,10 +33,10 @@ grammar Soroban
     '^' <Pow> / '*' / '/'
   end
   rule value
-    ( function / '(' space? expression space? ')' / range / number / identifier / string / '-' value )
+    ( function / '(' space? expression space? ')' / range / number / boolean / identifier / string / '-' value )
   end
   rule function
-    identifier '(' space? arguments? space? ')' <Function>
+    [a-zA-Z]+ '(' space? arguments? space? ')' <Function>
   end
   rule arguments
     logical ( space? ',' space? logical )*

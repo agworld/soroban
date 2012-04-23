@@ -10,6 +10,7 @@ module Soroban
 
     def initialize
       @cells = []
+      @expected = []
       @bindings = {}
     end
 
@@ -61,7 +62,7 @@ module Soroban
     end
 
     def missing
-      []
+      @expected - @cells
     end
 
   private
@@ -70,7 +71,11 @@ module Soroban
       @cells << label.to_sym
       internal = "@#{label}"
       _expose(internal, label)
-      instance_variable_set(internal, Cell.new(contents, binding))
+      cell = Cell.new(contents, binding)
+      @expected << cell.dependencies
+      @expected.flatten!
+      @expected.uniq!
+      instance_variable_set(internal, cell)
     end
 
     def _bind(name, label)
