@@ -36,8 +36,8 @@ puts s.output         # => "Large"
 puts s.C1             # => 42
 ```
 
-Formulas
---------
+Persistence
+-----------
 
 Soroban formulas are strings that begin with the `=` symbol. It is therefore
 easy to persist them, which is mighty handy if you need to parse an Excel
@@ -82,7 +82,7 @@ s.walk('D1:D5').reduce(:+)    # => 15
 Functions
 ---------
 
-Soroban implements some Excel functions, including `IF`, `SUM, `VLOOKUP`,
+Soroban implements some Excel functions, including `IF`, `SUM`, `VLOOKUP`,
 `HLOOKUP`, `MIN`, `MAX` and `AVERAGE`, but you may find that you need more than
 those. In that case, it's easy to add more.
 
