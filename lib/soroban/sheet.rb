@@ -57,7 +57,7 @@ module Soroban
     end
 
     def cells
-      @cells.keys.map { |label| label.to_s }.zip( @cells.keys.map { |label| eval("@#{label}.excel") } )
+      Hash[@cells.keys.map { |label| label.to_s }.zip( @cells.keys.map { |label| eval("@#{label}.excel") } )]
     end
 
     def missing

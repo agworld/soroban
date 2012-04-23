@@ -1,35 +1,43 @@
-= Soroban
+Soroban
+=======
 
-Soroban is a calculating engine that understands Excel formulas. Watch:
+Soroban is a calculating engine that understands Excel formulas.
 
-    > require 'soroban'
-     => true 
-    > s = Soroban::Sheet.()
-     => #<Soroban::Sheet:0x10a374f28 @parser=#<SorobanParser:0x10a0b4838 @consume_all_input=true>> 
-    > s.A1 = 2
-     => 2 
-    > s.A2 = 3
-     => 3 
-    > s.A3 = "=A1+A2^3"
-     => "=A1+A2^3" 
-    > s.A4 = "=IF(A3>100,'Large','Tiny')"
-     => "=IF(A2>10,'Large','Tiny')" 
-    > s.A4
-     => "Tiny" 
-    > s.A3
-     => 29 
-    > s.A2 = 5
-     => 5 
-    > s.A4
-     => "Large" 
+Getting Started
+---------------
 
-Soroban magically parses Excel formulas and rewrites them as valid Ruby code.
-You can easily find out what it's done:
+```
+> sudo gem install soroban
+```
 
-  > s.A3?
-   => ...
+Example Usage
+-------------
 
-== Formulas
+```ruby
+require 'soroban'
+
+s = Soroban::Sheet.new()
+
+s.A1 = 2
+s.set('B1:B5', [1,2,3,4,5])
+s.C1 = "=SUM(B1:B5) + A1 ^ 3"
+s.C2 = "=IF(C1>25,'Large','Tiny')"
+
+puts s.C1             # => 23
+
+s.bind(:input, :A1)
+s.bind(:output, :C2)
+
+puts s.output         # => "Tiny"
+
+s.input = 3
+
+puts s.output         # => "Large"
+puts s.C1             # => 42
+```
+
+Formulas
+--------
 
 Soroban formulas are strings that begin with the `=` symbol. It is therefore
 easy to persist them, which is mighty handy if you need to parse an Excel
@@ -40,60 +48,52 @@ Soroban makes this easy, as it can tell you which cells you need to add to make
 it possible to do the calculations you want, and it can iterate over all the
 cells you've defined, so you can easily rip them out for persistence.
 
-  > s.cells.map { |label, contents| "#{label}[#{contents}]" }
-   => ...
-  > s.A6 = "=A7+A8"
-   => "=A7+A8"
-  > s...
+```ruby
+s.F1 = "= E1 + SUM(D1:D5)"
 
-Note in the above that the iterator returns the label of the cell along with its
-raw contents. If you want to iterate over cell values (including computed values
-of formulas), then use `walk`.
+s.missing             # => [:E1, :D1, :D2, :D3, :D4, :D5]
 
-== Cells
+s.E1 = "= D1 ^ D2"
+s.set("D1:D5", [1,2,3,4,5])
 
-Cells have a label, like `B13`, which makes it easy to iterate them. It also
-figures our cell labels when you assign arrays and hashes, like this:
+s.missing             # => []
 
-  > s.B1 = [ 1, 2, 3, 4, 5 ]
-   => ...
-  > s.B3
-   => 3
-  > s.C1 = "=SUM(B1:B5)"
-   => 16
+s.cells               # => {"F1"=>"= E1 + SUM(D1:D5)", "E1"=>"= D1 ^ D2", "D1"=>"1", "D2"=>"2", "D3"=>"3", "D4"=>"4", "D5"=>"5"}
+```
 
-To make parsing of an Excel file even easier, Soroban will let you know if
-you've captured enough cells to be able to calculate the ones you've already
-defined:
+This means parsing a file can be done as follows.
 
-  > s.undefined.each { |label| }
+* Add the cells that correspond to inputs and outputs
+* Add the cells reported by `missing` (and continue to do so until it's empty)
+* Persist the hash returned by `cells`
 
 == Iteration
 
-You can walk over a range of cells.
+Note that `cells` returns the label of the cell along with its raw contents. If
+you want to iterate over cell values (including computed values of formulas),
+then use `walk`.
 
-  > s.walk('B1:C2').reduce(:+)
-
-== Bindings
-
-You can bind nice variable names to cells.
-
-  > s.bind(:A1, :celcius)
-   => 
-  > s.bind(:A2, :faranheit)
-   => 
-  > s.bindings.each { |label, binding| "#{label}[#{binding}]" }
+```ruby
+s.set('D1:D5', [1,2,3,4,5])
+s.walk('D1:D5').reduce(:+)    # => 15
+```
 
 == Functions
 
 Soroban implements some Excel functions, including `IF`, `SUM, `VLOOKUP`,
 `HLOOKUP`, `MIN`, `MAX` and `AVERAGE`, but you may find that you need more than
-those. In that case, it's easy to add more:
+those. In that case, it's easy to add more.
 
-  > s.func_foo = lambda { |x, y| ... }
-   => ...
-  > s.A1 = "=FOO(A2, A3)"
-   => ...
+```ruby
+Soroban::define :FOO => lambda { |lo, hi|
+  raise ArgumentError if lo > hi
+  rand(hi-lo) + lo
+}
+
+s.g = "=FOO(10, 20)"
+
+puts s.g              # => 17
+```
 
 == Contributing to soroban
  
