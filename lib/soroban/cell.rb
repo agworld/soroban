@@ -5,11 +5,10 @@ module Soroban
   class Cell
     attr_reader :excel, :ruby, :dependencies
 
-    def initialize(contents, binding)
+    def initialize(binding)
       @dependencies = []
       @binding = binding
       @touched = false
-      set(contents)
     end
 
     def set(contents)
@@ -19,7 +18,7 @@ module Soroban
     end
 
     def get
-      raise Soroban::RecursionError, "" if @touched
+      raise Soroban::RecursionError, "Loop detected when evaluating '#{@excel}'" if @touched
       @touched = true
       eval(@ruby, @binding)
     ensure
@@ -31,7 +30,7 @@ module Soroban
     def _convert(contents)
       tree = Soroban::parser.parse(contents)
       raise Soroban::ParseError, Soroban::parser.failure_reason if tree.nil?
-      tree.convert(@dependencies)
+      tree.convert(@dependencies.clear)
     end
 
   end

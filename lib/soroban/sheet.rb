@@ -9,8 +9,7 @@ module Soroban
     attr_reader :bindings
 
     def initialize
-      @cells = []
-      @expected = []
+      @cells = {}
       @bindings = {}
     end
 
@@ -43,11 +42,11 @@ module Soroban
     end
 
     def get(label_or_name)
-      eval("@#{label_or_name}.get", binding)
+      _get(label_or_name, eval("@#{label_or_name}", binding))
     end
 
     def bind(name, label)
-      unless @cells.include?(label.to_sym)
+      unless @cells.keys.include?(label.to_sym)
         raise Soroban::ReferenceError, "Cannot bind '#{name}' to non-existent cell '#{label}'"
       end
       _bind(name, label)
@@ -58,24 +57,34 @@ module Soroban
     end
 
     def cells
-      @cells.map { |label| label.to_s }.zip( @cells.map { |label| eval("@#{label}.excel") } )
+      @cells.keys.map { |label| label.to_s }.zip( @cells.keys.map { |label| eval("@#{label}.excel") } )
     end
 
     def missing
-      @expected - @cells
+      @cells.values.map.flatten.uniq - @cells.keys
     end
 
   private
 
     def _add(label, contents)
-      @cells << label.to_sym
       internal = "@#{label}"
       _expose(internal, label)
-      cell = Cell.new(contents, binding)
-      @expected << cell.dependencies
-      @expected.flatten!
-      @expected.uniq!
+      cell = Cell.new(binding)
+      _set(label, cell, contents)
       instance_variable_set(internal, cell)
+    end
+
+    def _set(label, cell, contents)
+      cell.set(contents)
+      @cells[label.to_sym] = cell.dependencies
+    end
+
+    def _get(label_or_name, cell)
+      label = label_or_name.to_sym
+      name = @cells[label] ? label : @bindings[label]
+      badref = @cells[name] & missing
+      raise Soroban::ReferenceError, "Unmet dependencies #{badref.join(', ')} for #{label}" if badref.length > 0
+      cell.get
     end
 
     def _bind(name, label)
@@ -87,10 +96,10 @@ module Soroban
     def _expose(internal, name)
       instance_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{name}
-          #{internal}.get
+          _get("#{name}", #{internal})
         end
         def #{name}=(contents)
-          #{internal}.set(contents)
+          _set("#{name}", #{internal}, contents)
         end
       EOV
     end
