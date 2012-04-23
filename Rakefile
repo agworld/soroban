@@ -15,7 +15,7 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "soroban"
-  gem.homepage = "http://github.com/jasonhutchens/soroban"
+  gem.homepage = "https://github.com/agworld/soroban"
   gem.license = "MIT"
   gem.summary = "Soroban is a calculating engine that understands Excel formulas."
   gem.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
