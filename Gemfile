@@ -10,4 +10,5 @@ group :development do
   gem "jeweler", "~> 1.8.3"
   gem "rcov", ">= 0"
   gem "rubyXL", "~> 1.2.7"
+  gem "redcarpet"
 end

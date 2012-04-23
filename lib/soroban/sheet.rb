@@ -5,14 +5,18 @@ require 'soroban/cell'
 
 module Soroban
 
+  # A container for cells.
   class Sheet
     attr_reader :bindings
 
+    # Creates a new sheet.
     def initialize
       @cells = {}
       @bindings = {}
     end
 
+    # Used for calling dynamically defined functions, and for creating new
+    # cells (via `label=`).
     def method_missing(method, *args, &block)
       if match = /^func_(.*)$/i.match(method.to_s)
         return Soroban::call(self, match[1], *args)
@@ -22,6 +26,7 @@ module Soroban
       super
     end
 
+    # Set the contents of one or more cells or ranges.
     def set(label_or_range, contents)
       unless range = Soroban::getRange(label_or_range)
         return _add(label_or_range, contents)
@@ -35,31 +40,36 @@ module Soroban
           cc.next! if fr == tr
           cr.next! if fc == tc
         end
-        raise Soroban::ReferenceError, "Supplied array doesn't match range length" if cc != tc && cr != tr
+        raise Soroban::RangeError, "Supplied array doesn't match range length" if cc != tc && cr != tr
       else
         raise ArgumentError, "Can only set cells or 1-dimensional ranges of cells"
       end
     end
 
+    # Retrieve the contents of a cell.
     def get(label_or_name)
       _get(label_or_name, eval("@#{label_or_name}", binding))
     end
 
+    # Bind one or more named variables to a cell.
     def bind(name, label)
       unless @cells.keys.include?(label.to_sym)
-        raise Soroban::ReferenceError, "Cannot bind '#{name}' to non-existent cell '#{label}'"
+        raise Soroban::UndefinedError, "Cannot bind '#{name}' to non-existent cell '#{label}'"
       end
       _bind(name, label)
     end
 
+    # Visit each cell in the supplied range, yielding its value.
     def walk(range)
       Walker.new(range, binding)
     end
 
+    # Return a hash of `label => contents` for each cell in the sheet.
     def cells
       Hash[@cells.keys.map { |label| label.to_s }.zip( @cells.keys.map { |label| eval("@#{label}.excel") } )]
     end
 
+    # Return a list of referenced but undefined cells.
     def missing
       @cells.values.map.flatten.uniq - @cells.keys
     end
@@ -83,7 +93,7 @@ module Soroban
       label = label_or_name.to_sym
       name = @cells[label] ? label : @bindings[label]
       badref = @cells[name] & missing
-      raise Soroban::ReferenceError, "Unmet dependencies #{badref.join(', ')} for #{label}" if badref.length > 0
+      raise Soroban::UndefinedError, "Unmet dependencies #{badref.join(', ')} for #{label}" if badref.length > 0
       cell.get
     end
 

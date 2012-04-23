@@ -1,14 +1,17 @@
 module Soroban
 
+  # Define a new function.
   def self.define(function_hash)
     @@functions ||= {}
     function_hash.each { |name, callback| @@functions[name] = callback }
   end 
 
+  # Return an array of all defined functions.
   def self.functions
     @@functions.keys.map { |f| f.to_s }
   end
 
+  # Call the named function within the context of the specified sheet.
   def self.call(sheet, name, *args)
     function = name.upcase.to_sym
     raise Soroban::UndefinedError, "No such function '#{function}'" unless @@functions[function]
