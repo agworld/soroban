@@ -82,11 +82,12 @@ s.walk('D1:D5').reduce(:+)    # => 15
 Functions
 ---------
 
-Soroban implements some Excel functions, including `IF`, `SUM`, `VLOOKUP`,
-`HLOOKUP`, `MIN`, `MAX` and `AVERAGE`, but you may find that you need more than
-those. In that case, it's easy to add more.
+Soroban implements some Excel functions, but you may find that you need more
+than those. In that case, it's easy to add more.
 
 ```ruby
+Soroban::functions            # => ["MIN", "VLOOKUP", "AND", "MAX", "OR", "NOT", "IF", "AVERAGE", "SUM"] 
+
 Soroban::define :FOO => lambda { |lo, hi|
   raise ArgumentError if lo > hi
   rand(hi-lo) + lo
