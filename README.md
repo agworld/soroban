@@ -3,6 +3,8 @@ Soroban
 
 Soroban is a calculating engine that understands Excel formulas.
 
+![Build Status](https://secure.travis-ci.org/agworld/soroban.png)
+
 Getting Started
 ---------------
 
