@@ -5,6 +5,8 @@ module Soroban
     # object. Specify the path to the xlsx file, the index of the sheet to be
     # imported, and a hash of name => label bindings.
     def self.rubyXL(path, sheet, bindings)
+      require 'rubyXL'
+      require 'soroban/import/ruby_xl_patch'
       RubyXLImporter.new(path, sheet, bindings).import
     end
 
@@ -17,7 +19,6 @@ module Soroban
       end
 
       def import
-        require 'rubyXL'
         workbook = RubyXL::Parser.parse(@path)
         @sheet = workbook.worksheets[@index]
         @model = Soroban::Sheet.new
@@ -43,7 +44,9 @@ module Soroban
         row, col = Soroban::getPos(label)
         cell = @sheet[row][col]
         data = cell.formula rescue nil
+        data = "=#{data}" unless data.nil?
         data ||= cell.value.to_s rescue nil
+        puts "#{label} => #{row},#{col} = #{data}"
         @model.set(label.to_sym => data)
       end
 

@@ -51,7 +51,8 @@ module Soroban
 
     # Retrieve the contents of a cell.
     def get(label_or_name)
-      _get(label_or_name, eval("@#{label_or_name}", binding))
+      label = @bindings[label_or_name] || label_or_name
+      _get(label_or_name, eval("@#{label}", binding))
     end
 
     # Bind one or more named variables to a cell.

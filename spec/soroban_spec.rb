@@ -55,6 +55,7 @@ describe "Soroban" do
     sheet.bind(:input => :A1, :output => :A2)
     sheet.input = 5
     sheet.output.should eq(25)
+    sheet.get(:input).should eq(5)
     sheet.bindings.keys.should include :input
     sheet.bindings.keys.should include :output
     sheet.bindings.values.should include :A1

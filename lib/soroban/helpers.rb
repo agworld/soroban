@@ -39,6 +39,7 @@ module Soroban
 
   # Return the row and column index of the given label.
   def self.getPos(label)
+    # TODO: fix for labels such as "BC42"
     match = /^([a-zA-Z]+)([\d]+)$/.match(label.to_s)
     return match[2].to_i - 1, match[1].upcase[0]-"A"[0]
   end
