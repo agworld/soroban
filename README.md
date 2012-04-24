@@ -86,8 +86,6 @@ Importers
 Soroban has a built-in importer for xlsx files. It requires the [RubyXL](https://github.com/gilt/rubyXL) gem. Use it as follows:
 
 ```ruby
-require 'rubyXL'
-
 BINDINGS = {
   :planet => :B1,
   :mass => :B2,
@@ -104,6 +102,8 @@ s.planet = 'Venus'
 s.mass = 80
 puts s.force          # => 710.044826106394
 ```
+
+The above example parses the first sheet of Physics.xlsx, which you can [download](https://github.com/agworld/soroban/raw/master/files/Physics.xlsx).
 
 This import process returns a new Soroban::Sheet object that contains all the
 cells required to calculate the values of the bound variables, and which has the
