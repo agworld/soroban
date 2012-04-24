@@ -11,7 +11,7 @@ end
 
 group :test do
   gem "rake"
-  gem "rspec", "~> 2.8.0"
+  gem "rspec", "~> 2.9.0"
   gem "yard", "~> 0.7"
 end
 
