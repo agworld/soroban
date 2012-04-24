@@ -40,7 +40,7 @@ puts s.C1             # => 50
 Bindings
 --------
 
-Soroban allows you to bind meaningful variable names to individual cells and to ranges of cells. When bound to a range, variables act as an array,.
+Soroban allows you to bind meaningful variable names to individual cells and to ranges of cells. When bound to a range, variables act as an array.
 
 ```ruby
 s.set(:A1 => 'hello', 'B1:B5' => [1,2,3,4,5])
@@ -77,7 +77,7 @@ s.set("D1:D5" => [1,2,3,4,5])
 
 s.missing             # => []
 
-s.cells               # => {"F1"=>"= E1 + SUM(D1:D5)", "E1"=>"= D1 ^ D2", "D1"=>"1", "D2"=>"2", "D3"=>"3", "D4"=>"4", "D5"=>"5"}
+s.cells               # => {:F1=>"= E1 + SUM(D1:D5)", :E1=>"= D1 ^ D2", :D1=>"1", :D2=>"2", :D3=>"3", :D4=>"4", :D5=>"5"}
 ```
 
 Importers
