@@ -12,10 +12,10 @@ end
 group :test do
   gem "rake"
   gem "rspec", "~> 2.8.0"
+  gem "yard", "~> 0.7"
 end
 
 group :document do
-  gem "yard", "~> 0.7"
   gem "rdoc", "~> 3.12"
   gem "redcarpet"
 end
