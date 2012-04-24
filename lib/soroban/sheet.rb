@@ -51,8 +51,12 @@ module Soroban
 
     # Retrieve the contents of a cell.
     def get(label_or_name)
-      label = @bindings[label_or_name] || label_or_name
-      _get(label_or_name, eval("@#{label}", binding))
+      label = @bindings[label_or_name.to_sym] || label_or_name
+      if Soroban::range?(label)
+        walk(label)
+      else
+        _get(label_or_name, eval("@#{label}", binding))
+      end
     end
 
     # Bind one or more named variables to a cell.
@@ -121,7 +125,7 @@ module Soroban
       @bindings[name.to_sym] = range.to_s
       instance_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{name}
-          ValueWalker.new("#{range}", binding)
+          walk("#{range}")
         end
       EOV
     end

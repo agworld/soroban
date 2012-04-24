@@ -24,7 +24,7 @@ module Soroban
         @model = Soroban::Sheet.new
         @bindings.values.each do |label_or_range|
           if Soroban::range?(label_or_range)
-            LabelWalker.new(label_or_range) do |label|
+            LabelWalker.new(label_or_range).each do |label|
               _addCell(label)
             end
           else
