@@ -8,34 +8,49 @@ Soroban is a calculating engine that understands Excel formulas.
 Getting Started
 ---------------
 
-```
-> sudo gem install soroban
-```
+Simply `sudo gem install soroban` and then `require 'soroban'` in your code.
+
+Look at the examples on this page, the [tests](https://github.com/agworld/soroban/blob/master/spec/soroban_spec.rb) and the [API docs](http://rubydoc.info/github/agworld/soroban/master/frames) to get up to speed.
 
 Example Usage
 -------------
 
 ```ruby
-require 'soroban'
-
 s = Soroban::Sheet.new()
 
 s.A1 = 2
-s.set('B1:B5', [1,2,3,4,5])
-s.C1 = "=SUM(B1:B5) + A1 ^ 3"
-s.C2 = "=IF(C1>25,'Large','Tiny')"
+s.set('B1:B5' => [1,2,3,4,5])
+s.C1 = "=SUM(A1, B1:B5, 5) + A1 ^ 3"
+s.C2 = "=IF(C1>30,'Large','Tiny')"
 
-puts s.C1             # => 23
+puts s.C1             # => 30
 
-s.bind(:input, :A1)
-s.bind(:output, :C2)
+s.bind(:input => :A1, :output => :C2)
 
 puts s.output         # => "Tiny"
 
 s.input = 3
 
 puts s.output         # => "Large"
-puts s.C1             # => 42
+puts s.C1             # => 50
+```
+
+Bindings
+--------
+
+Soroban allows you to bind meaningful variable names to individual cells and to ranges of cells. When bound to a range, variables act as an array,.
+
+```ruby
+s.set(:A1 => 'hello', 'B1:B5' => [1,2,3,4,5])
+
+s.bind(:foo => :A1, :bar => 'B1:B5')
+
+puts s.foo            # => 'hello'
+puts s.bar[0]         # => 1
+
+s.bar[0] = 'howdy'
+
+puts s.B1             # => 'howdy'
 ```
 
 Persistence
@@ -56,16 +71,37 @@ s.F1 = "= E1 + SUM(D1:D5)"
 s.missing             # => [:E1, :D1, :D2, :D3, :D4, :D5]
 
 s.E1 = "= D1 ^ D2"
-s.set("D1:D5", [1,2,3,4,5])
+s.set("D1:D5" => [1,2,3,4,5])
 
 s.missing             # => []
 
 s.cells               # => {"F1"=>"= E1 + SUM(D1:D5)", "E1"=>"= D1 ^ D2", "D1"=>"1", "D2"=>"2", "D3"=>"3", "D4"=>"4", "D5"=>"5"}
 ```
 
-This means parsing a file can be done as follows.
+Importers
+---------
 
-* Add the cells that correspond to inputs and outputs
+Soroban has a built-in importer for xlsx files. It requires the [RubyXL](https://github.com/gilt/rubyXL) gem. Use it as follows:
+
+```ruby
+require 'rubyXL'
+
+BINDINGS = {
+  :gravity => :B1,
+  :mass => :B2,
+  :force => :B10
+}
+
+s = Soroban::Import::rubyXL("/Users/kranzky/Desktop/Physics.xlsx", 0, BINDINGS )
+```
+
+This import process returns a new Soroban::Sheet object that contains all the
+cells required to calculate the values of the bound variables, and which has the
+bindings set up correctly.
+
+You can import other kinds of file using the following pattern:
+
+* Add the cells that correspond to bound inputs and outputs
 * Add the cells reported by `missing` (and continue to do so until it's empty)
 * Persist the hash returned by `cells`
 
@@ -77,7 +113,7 @@ you want to iterate over cell values (including computed values of formulas),
 then use `walk`.
 
 ```ruby
-s.set('D1:D5', [1,2,3,4,5])
+s.set('D1:D5' => [1,2,3,4,5])
 s.walk('D1:D5').reduce(:+)    # => 15
 ```
 
