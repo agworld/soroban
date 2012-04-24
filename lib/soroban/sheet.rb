@@ -84,7 +84,9 @@ module Soroban
 
     # Return a hash of `label => contents` for each cell in the sheet.
     def cells
-      Hash[@cells.keys.map { |label| label.to_s }.zip( @cells.keys.map { |label| eval("@#{label}.excel") } )]
+      labels = @cells.keys.map { |label| label.to_sym }
+      contents = labels.map { |label| eval("@#{label}.excel") }
+      Hash[labels.zip(contents)]
     end
 
     # Return a list of referenced but undefined cells.
@@ -102,14 +104,16 @@ module Soroban
       instance_variable_set(internal, cell)
     end
 
-    def _set(label, cell, contents)
+    def _set(label_or_name, cell, contents)
+      label = label_or_name.to_sym
+      name = @bindings[label] || label
       cell.set(contents)
-      @cells[label.to_sym] = cell.dependencies
+      @cells[name] = cell.dependencies
     end
 
     def _get(label_or_name, cell)
       label = label_or_name.to_sym
-      name = @cells[label] ? label : @bindings[label]
+      name = @bindings[label] || label
       badref = @cells[name] & missing
       raise Soroban::UndefinedError, "Unmet dependencies #{badref.join(', ')} for #{label}" if badref.length > 0
       cell.get
