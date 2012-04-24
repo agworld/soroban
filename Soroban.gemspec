@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "soroban"
-  s.version = "0.2.0"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jason Hutchens"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "Soroban.gemspec",
     "VERSION",
+    "files/Physics.xlsx",
     "lib/soroban.rb",
     "lib/soroban/cell.rb",
     "lib/soroban/error.rb",
@@ -54,6 +55,7 @@ Gem::Specification.new do |s|
     "lib/soroban/sheet.rb",
     "lib/soroban/value_walker.rb",
     "spec/documentation_spec.rb",
+    "spec/import_spec.rb",
     "spec/soroban_spec.rb",
     "spec/spec_helper.rb"
   ]
