@@ -1,6 +1,7 @@
 --protected
 --no-private
 --exclude lib/soroban/parser/
+--exclude lib/soroban/import/
 -
 README.md
 LICENSE.txt
