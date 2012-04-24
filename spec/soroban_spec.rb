@@ -23,7 +23,7 @@ describe "Soroban" do
   end
 
   it "can set a value" do
-    sheet.set(:foo, 'hello')
+    sheet.set(:foo => 'hello')
     sheet.foo.should eq('hello')
   end
 
@@ -33,30 +33,26 @@ describe "Soroban" do
   end
 
   it "can set an array" do
-    sheet.set("A1:A5", [ 1, 2, 3, 4, 5 ])
+    sheet.set("A1:A5" => [ 1, 2, 3, 4, 5 ])
     sheet.B1 = '=SUM(A1:A5)'
     sheet.B1.should eq(15)
   end
 
   it "can set a hash" do
-    sheet.set("A1:A3", [ 'one', 'two', 'three' ])
-    sheet.set("B1:B3", [ 'mop', 'hai', 'bah' ])
+    sheet.set("A1:A3" => [ 'one', 'two', 'three' ], "B1:B3" => [ 'mop', 'hai', 'bah' ])
     sheet.C1 = '=VLOOKUP("two", A1:B3, 2, 0)'
     sheet.C1.should eq('hai')
   end
 
   it "can iterate over all cells" do
-    sheet.set("A1:A3", [ 1, 2, 3 ])
-    sheet.set("B1:B3", [ 4, 5, 6 ])
-    sheet.set("C1:C3", [ 7, 8, 9 ])
+    sheet.set("A1:A3" => [ 1, 2, 3 ], "B1:B3" => [ 4, 5, 6 ], "C1:C3" => [ 7, 8, 9 ])
     sheet.cells.map { |label, contents| contents.to_i }.sort.should eq [1,2,3,4,5,6,7,8,9]
   end
 
   it "can bind variables to cells" do
     sheet.A1 = 0
     sheet.A2 = "=A1^2"
-    sheet.bind(:input, :A1)
-    sheet.bind(:output, :A2)
+    sheet.bind(:input => :A1, :output => :A2)
     sheet.input = 5
     sheet.output.should eq(25)
     sheet.bindings.keys.should include :input
@@ -90,7 +86,7 @@ describe "Soroban" do
 
   it "can reject valid ruby code in formulas" do
     lambda {
-      sheet.set(:A1, "=3**2")
+      sheet.set(:A1 => "=3**2")
     }.should raise_error(Soroban::ParseError)
   end
 

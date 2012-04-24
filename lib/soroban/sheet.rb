@@ -4,9 +4,6 @@ require 'soroban/label_walker'
 require 'soroban/value_walker'
 require 'soroban/cell'
 
-# TODO: set and bind accept a hash
-# TODO: bind can bind to a range (acts as an array)
-
 module Soroban
 
   # A container for cells.
@@ -31,22 +28,24 @@ module Soroban
     end
 
     # Set the contents of one or more cells or ranges.
-    def set(label_or_range, contents)
-      unless range = Soroban::getRange(label_or_range)
-        return _add(label_or_range, contents)
-      end
-      fc, fr, tc, tr = range
-      if fc == tc || fr == tr
-        raise ArgumentError, "Expecting an array when setting #{label_or_range}" unless contents.kind_of? Array
-        cc, cr = fc, fr
-        contents.each do |item|
-          set("#{cc}#{cr}", item)
-          cc.next! if fr == tr
-          cr.next! if fc == tc
+    def set(options_hash)
+      options_hash.each do |label_or_range, contents|
+        unless range = Soroban::getRange(label_or_range)
+          return _add(label_or_range, contents)
         end
-        raise Soroban::RangeError, "Supplied array doesn't match range length" if cc != tc && cr != tr
-      else
-        raise ArgumentError, "Can only set cells or 1-dimensional ranges of cells"
+        fc, fr, tc, tr = range
+        if fc == tc || fr == tr
+          raise ArgumentError, "Expecting an array when setting #{label_or_range}" unless contents.kind_of? Array
+          cc, cr = fc, fr
+          contents.each do |item|
+            set("#{cc}#{cr}" => item)
+            cc.next! if fr == tr
+            cr.next! if fc == tc
+          end
+          raise Soroban::RangeError, "Supplied array doesn't match range length" if cc != tc && cr != tr
+        else
+          raise ArgumentError, "Can only set cells or 1-dimensional ranges of cells"
+        end
       end
     end
 
@@ -56,11 +55,16 @@ module Soroban
     end
 
     # Bind one or more named variables to a cell.
-    def bind(name, label)
-      unless @cells.keys.include?(label.to_sym)
-        raise Soroban::UndefinedError, "Cannot bind '#{name}' to non-existent cell '#{label}'"
+    def bind(options_hash)
+      options_hash.each do |name, label_or_range|
+        if Soroban::range?(label_or_range)
+        else
+          unless @cells.keys.include?(label_or_range.to_sym)
+            raise Soroban::UndefinedError, "Cannot bind '#{name}' to non-existent cell '#{label_or_range}'"
+          end
+          _bind(name, label_or_range)
+        end
       end
-      _bind(name, label)
     end
 
     # Visit each cell in the supplied range, yielding its value.
