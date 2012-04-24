@@ -37,6 +37,12 @@ module Soroban
     /^([a-zA-Z]+)([\d]+):([a-zA-Z]+)([\d]+)$/.match(range.to_s).to_a[1..-1]
   end
 
+  # Return the row and column index of the given label.
+  def self.getPos(label)
+    match = /^([a-zA-Z]+)([\d]+)$/.match(label.to_s)
+    return match[2].to_i - 1, match[1].upcase[0]-"A"[0]
+  end
+
   # Return an array of values for the supplied arguments (which may be numbers, labels and ranges).
   def self.getValues(binding, *args)
     args.map { |arg| Soroban::range?(arg) ? ValueWalker.new(arg, binding).map : arg }.flatten
