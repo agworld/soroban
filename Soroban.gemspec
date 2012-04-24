@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "soroban"
-  s.version = "0.1.1"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jason Hutchens"]
-  s.date = "2012-04-23"
+  s.date = "2012-04-24"
   s.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
   s.email = "jason.hutchens@agworld.com.au"
   s.extra_rdoc_files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     ".rspec",
+    ".travis.yml",
     ".yardopts",
     "Gemfile",
     "Gemfile.lock",
@@ -41,13 +42,18 @@ Gem::Specification.new do |s|
     "lib/soroban/functions/sum.rb",
     "lib/soroban/functions/vlookup.rb",
     "lib/soroban/helpers.rb",
+    "lib/soroban/import.rb",
+    "lib/soroban/import/ruby_xl_importer.rb",
+    "lib/soroban/import/ruby_xl_patch.rb",
+    "lib/soroban/label_walker.rb",
     "lib/soroban/parser.rb",
     "lib/soroban/parser/grammar.rb",
     "lib/soroban/parser/grammar.treetop",
     "lib/soroban/parser/nodes.rb",
     "lib/soroban/parser/rewrite.rb",
     "lib/soroban/sheet.rb",
-    "lib/soroban/walker.rb",
+    "lib/soroban/value_walker.rb",
+    "spec/documentation_spec.rb",
     "spec/soroban_spec.rb",
     "spec/spec_helper.rb"
   ]
@@ -62,35 +68,20 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<treetop>, ["~> 1.4.10"])
-      s.add_development_dependency(%q<rspec>, ["~> 2.8.0"])
-      s.add_development_dependency(%q<yard>, ["~> 0.7"])
-      s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.1.3"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.8.3"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rubyXL>, ["~> 1.2.7"])
-      s.add_development_dependency(%q<redcarpet>, [">= 0"])
+      s.add_development_dependency(%q<nokogiri>, [">= 1.4.4"])
+      s.add_development_dependency(%q<rubyzip>, [">= 0.9.4"])
     else
       s.add_dependency(%q<treetop>, ["~> 1.4.10"])
-      s.add_dependency(%q<rspec>, ["~> 2.8.0"])
-      s.add_dependency(%q<yard>, ["~> 0.7"])
-      s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.1.3"])
-      s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
-      s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
-      s.add_dependency(%q<redcarpet>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
+      s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
     end
   else
     s.add_dependency(%q<treetop>, ["~> 1.4.10"])
-    s.add_dependency(%q<rspec>, ["~> 2.8.0"])
-    s.add_dependency(%q<yard>, ["~> 0.7"])
-    s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.1.3"])
-    s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
-    s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
-    s.add_dependency(%q<redcarpet>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
+    s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
   end
 end
 
