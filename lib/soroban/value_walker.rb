@@ -19,7 +19,7 @@ module Soroban
 
     # Retrieve the value of a cell within the range by index
     def [](index)
-      labels = @walker.map
+      labels = @walker.to_a
       if index < 0 || index >= labels.length
         raise Soroban::RangeError, "Index #{index} falls outside of '#{@range}'"
       end

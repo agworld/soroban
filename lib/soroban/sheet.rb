@@ -85,7 +85,7 @@ module Soroban
 
     # Return a list of referenced but undefined cells.
     def missing
-      @cells.values.map.flatten.uniq - @cells.keys
+      @cells.values.flatten.uniq - @cells.keys
     end
 
   private

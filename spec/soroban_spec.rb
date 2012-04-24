@@ -34,8 +34,9 @@ describe "Soroban" do
 
   it "can set an array" do
     sheet.set("A1:A5" => [ 1, 2, 3, 4, 5 ])
-    sheet.B1 = '=SUM(A1:A5)'
-    sheet.B1.should eq(15)
+    sheet.set("B2" => 5)
+    sheet.B1 = '=SUM(10, A1:A5, B2)'
+    sheet.B1.should eq(30)
   end
 
   it "can set a hash" do
