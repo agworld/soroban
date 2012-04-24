@@ -11,9 +11,9 @@ module Soroban
 
     # Cells are initialised with a binding to allow formulas to be executed
     # within the context of the sheet which ownes the cell.
-    def initialize(binding)
+    def initialize(context)
       @dependencies = []
-      @binding = binding
+      @binding = context
       @touched = false
     end
 

@@ -62,6 +62,18 @@ describe "Soroban" do
     sheet.bindings.values.should include :A2
   end
 
+  it "can bind variables to ranges" do
+    sheet.set("X1:X5" => [1,2,3,4,5], "Z1:Z5" => [6,7,8,9,0])
+    sheet.bind(:foo => "X1:X5", :bar => "Z1:Z5")
+    sheet.foo[0].should eq(1)
+    sheet.foo[4].should eq(5)
+    sheet.bar[0].should eq(6)
+    sheet.bar[3].should eq(9)
+    sheet.bar[4].should eq(0)
+    sheet.bar[2] = 'foo'
+    sheet.Z3.should eq('foo')
+  end
+
   it "can define new functions" do
     Soroban::define :FOO => lambda { |a, b| 2 * a + b / 2 }
     sheet.A1 = 7

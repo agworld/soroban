@@ -59,6 +59,11 @@ module Soroban
     def bind(options_hash)
       options_hash.each do |name, label_or_range|
         if Soroban::range?(label_or_range)
+          LabelWalker.new(label_or_range).each do |label|
+            next if @cells.keys.include?(label.to_sym)
+            raise Soroban::UndefinedError, "Cannot bind '#{name}' to range '#{label_or_range}'; cell #{label} is not defined"
+          end
+          _bind_range(name, label_or_range)
         else
           unless @cells.keys.include?(label_or_range.to_sym)
             raise Soroban::UndefinedError, "Cannot bind '#{name}' to non-existent cell '#{label_or_range}'"
@@ -110,6 +115,15 @@ module Soroban
       @bindings[name.to_sym] = label.to_sym
       internal = "@#{label}"
       _expose(internal, name)
+    end
+
+    def _bind_range(name, range)
+      @bindings[name.to_sym] = range.to_s
+      instance_eval <<-EOV, __FILE__, __LINE__ + 1
+        def #{name}
+          ValueWalker.new("#{range}", binding)
+        end
+      EOV
     end
 
     def _expose(internal, name)

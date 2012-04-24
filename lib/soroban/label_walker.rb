@@ -5,8 +5,7 @@ module Soroban
 
     include Enumerable
 
-    # Create a new walker from a supplied range and binding. The binding is
-    # required when calculating the value of each visited cell.
+    # Create a new walker from a supplied range.
     def initialize(range)
       @fc, @fr, @tc, @tr = Soroban::getRange(range)
     end
