@@ -51,14 +51,7 @@ module Soroban
       "'#{value}'"
     end
     def extract(value)
-      fc, fr, tc, tr = Soroban::getRange(value) 
-      retval = []
-      (fc..tc).each do |cc|
-        (fr..tr).each do |cr|
-          retval << "#{cc}#{cr}".to_sym
-        end
-      end
-      retval
+      LabelWalker.new(value).map { |label| "#{label}".to_sym }
     end
   end
 

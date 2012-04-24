@@ -89,12 +89,20 @@ Soroban has a built-in importer for xlsx files. It requires the [RubyXL](https:/
 require 'rubyXL'
 
 BINDINGS = {
-  :gravity => :B1,
+  :planet => :B1,
   :mass => :B2,
-  :force => :B10
+  :force => :B3
 }
 
-s = Soroban::Import::rubyXL("/Users/kranzky/Desktop/Physics.xlsx", 0, BINDINGS )
+s = Soroban::Import::rubyXL("files/Physics.xlsx", 0, BINDINGS )
+
+s.planet = 'Earth'
+s.mass = 80
+puts s.force          # => 783.459251241996
+
+s.planet = 'Venus'
+s.mass = 80
+puts s.force          # => 710.044826106394
 ```
 
 This import process returns a new Soroban::Sheet object that contains all the

@@ -30,6 +30,8 @@ module Soroban
       raise Soroban::RecursionError, "Loop detected when evaluating '#{@excel}'" if @touched
       @touched = true
       eval(@ruby, @binding)
+    rescue TypeError, RangeError, ZeroDivisionError
+      nil
     ensure
       @touched = false
     end

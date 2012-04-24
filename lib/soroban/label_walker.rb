@@ -12,9 +12,15 @@ module Soroban
 
     # Yield the label of each cell referenced by the supplied range.
     def each
-      (@fc..@tc).each do |col|
-        (@fr..@tr).each do |row|
-          yield "#{col}#{row}"
+      col, row = @fc, @fr
+      while true do
+        yield "#{col}#{row}"
+        break if row == @tr && col == @tc
+        if row == @tr
+          row = @fr
+          col = col.next
+        else
+          row = row.next
         end
       end
     end

@@ -41,7 +41,7 @@ module Soroban
   def self.getPos(label)
     # TODO: fix for labels such as "BC42"
     match = /^([a-zA-Z]+)([\d]+)$/.match(label.to_s)
-    return match[2].to_i - 1, match[1].upcase[0]-"A"[0]
+    return match[2].to_i - 1, match[1].upcase[0].ord-"A"[0].ord
   end
 
   # Return an array of values for the supplied arguments (which may be numbers, labels and ranges).

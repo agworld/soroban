@@ -46,7 +46,6 @@ module Soroban
         data = cell.formula rescue nil
         data = "=#{data}" unless data.nil?
         data ||= cell.value.to_s rescue nil
-        puts "#{label} => #{row},#{col} = #{data}"
         @model.set(label.to_sym => data)
       end
 
