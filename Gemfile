@@ -5,7 +5,6 @@ gem "treetop", "~> 1.4.10"
 group :test do
   gem "rake"
   gem "rspec", "~> 2.8.0"
-  gem "rcov", ">= 0"
 end
 
 group :gemify do
@@ -23,4 +22,5 @@ group :development do
   gem "rubyXL", "~> 1.2.7"
   gem "nokogiri", ">= 1.4.4"
   gem "rubyzip", ">= 0.9.4"
+# gem "rcov", ">= 0"
 end

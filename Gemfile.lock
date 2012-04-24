@@ -12,7 +12,6 @@ GEM
     nokogiri (1.5.2)
     polyglot (0.3.3)
     rake (0.9.2.2)
-    rcov (1.0.0)
     rdoc (3.12)
       json (~> 1.4)
     redcarpet (2.1.1)
@@ -39,7 +38,6 @@ DEPENDENCIES
   jeweler (~> 1.8.3)
   nokogiri (>= 1.4.4)
   rake
-  rcov
   rdoc (~> 3.12)
   redcarpet
   rspec (~> 2.8.0)
