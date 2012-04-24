@@ -1,7 +1,11 @@
 require 'soroban/helpers'
 require 'soroban/functions'
-require 'soroban/walker'
+require 'soroban/label_walker'
+require 'soroban/value_walker'
 require 'soroban/cell'
+
+# TODO: set and bind accept a hash
+# TODO: bind can bind to a range (acts as an array)
 
 module Soroban
 
@@ -61,7 +65,7 @@ module Soroban
 
     # Visit each cell in the supplied range, yielding its value.
     def walk(range)
-      Walker.new(range, binding)
+      ValueWalker.new(range, binding)
     end
 
     # Return a hash of `label => contents` for each cell in the sheet.

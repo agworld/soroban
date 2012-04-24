@@ -39,7 +39,7 @@ module Soroban
 
   # Return an array of values for the supplied arguments (which may be numbers, labels and ranges).
   def self.getValues(binding, *args)
-    args.map { |arg| Soroban::range?(arg) ? Walker.new(arg, binding).map : arg }.flatten
+    args.map { |arg| Soroban::range?(arg) ? ValueWalker.new(arg, binding).map : arg }.flatten
   end
 
 end
