@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Fix issue with importing rows of equations
+desc: I have a sheet where the same equation has been copied/pasted between cells, and it only gets imported once.
+type: :bugfix
+component: soroban
+release: 
+reporter: Jason Hutchens <jason@agworld.com.au>
+status: :unstarted
+disposition: 
+creation_time: 2012-05-03 07:51:21.582499 Z
+references: []
+
+id: 2257df466e56d29a07b2ecc2453296d9d1401d77
+log_events: 
+- - 2012-05-03 07:51:24.022969 Z
+  - Jason Hutchens <jason@agworld.com.au>
+  - created
+  - ""

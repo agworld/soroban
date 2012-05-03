@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Rewrite formulas as valud Javascript
+desc: Soroban currently rewrites formulas as valid Ruby for execution on the server. It is possible to rewrite as valid JS code for execution on the client. Do this thing.
+type: :feature
+component: soroban
+release: 
+reporter: Jason Hutchens <jason@agworld.com.au>
+status: :unstarted
+disposition: 
+creation_time: 2012-05-03 07:52:17.446014 Z
+references: []
+
+id: d84ed3471e4dd2930795446dca750c20700746e0
+log_events: 
+- - 2012-05-03 07:52:19.141383 Z
+  - Jason Hutchens <jason@agworld.com.au>
+  - created
+  - ""

@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Implement dump and restore as a JSON blob
+desc: Dump the entire state out as a JSON blob, and load it back in. Write tests. Makes for easy serialisation.
+type: :task
+component: soroban
+release: 
+reporter: Jason Hutchens <jason@agworld.com.au>
+status: :unstarted
+disposition: 
+creation_time: 2012-05-03 07:50:15.815354 Z
+references: []
+
+id: 096ca8b758759b2b32d9c58a88a2ab05672336b8
+log_events: 
+- - 2012-05-03 07:50:20.319126 Z
+  - Jason Hutchens <jason@agworld.com.au>
+  - created
+  - ""
