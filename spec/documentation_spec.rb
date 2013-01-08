@@ -30,6 +30,8 @@ describe "Documentation" do
 
     # Bindings
 
+    s = Soroban::Sheet.new()
+
     s.set(:A1 => 'hello', 'B1:B5' => [1,2,3,4,5])
 
     s.bind(:foo => :A1, :bar => 'B1:B5')
@@ -46,6 +48,8 @@ describe "Documentation" do
     s.B1.should eq('howdy')
 
     # Persistence
+
+    s = Soroban::Sheet.new()
 
     s.F1 = "= E1 + SUM(D1:D5)"
 

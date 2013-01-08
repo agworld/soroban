@@ -31,7 +31,8 @@ module Soroban
     def set(options_hash)
       options_hash.each do |label_or_range, contents|
         unless range = Soroban::getRange(label_or_range)
-          return _add(label_or_range, contents)
+          _add(label_or_range, contents)
+          next
         end
         fc, fr, tc, tr = range
         if fc == tc || fr == tr
