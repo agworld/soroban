@@ -11,7 +11,8 @@ module Soroban
     attr_reader :bindings
 
     # Creates a new sheet.
-    def initialize
+    def initialize(logger=nil)
+      @logger = logger
       @cells = {}
       @bindings = {}
     end
@@ -30,6 +31,7 @@ module Soroban
     # Set the contents of one or more cells or ranges.
     def set(options_hash)
       options_hash.each do |label_or_range, contents|
+        _debug("setting '#{label_or_range}' to '#{contents}'}")
         unless range = Soroban::getRange(label_or_range)
           _add(label_or_range, contents)
           next
@@ -53,6 +55,7 @@ module Soroban
     # Retrieve the contents of a cell.
     def get(label_or_name)
       label = @bindings[label_or_name.to_sym] || label_or_name
+      _debug("retrieving '#{label_or_name}' from '#{label}'}")
       if Soroban::range?(label)
         walk(label)
       else
@@ -63,6 +66,7 @@ module Soroban
     # Bind one or more named variables to a cell.
     def bind(options_hash)
       options_hash.each do |name, label_or_range|
+        _debug("binding '#{name}' to '#{label_or_range}'}")
         if Soroban::range?(label_or_range)
           LabelWalker.new(label_or_range).each do |label|
             next if @cells.keys.include?(label.to_sym)
@@ -96,6 +100,11 @@ module Soroban
     end
 
   private
+
+    def _debug(message)
+      return if @logger.nil?
+      @logger.debug "SOROBAN: #{message}"
+    end
 
     def _add(label, contents)
       internal = "@#{label}"
