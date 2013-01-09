@@ -1,6 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Documentation", :if => Gem.available?("rubyXL") do
+has_rubyxl = begin
+  Gem::Specification::find_by_name("rubyXL") 
+rescue Gem::LoadError
+  false
+end
+
+describe "Documentation", :if => has_rubyxl do
 
   it "can import xlsx files using RubyXL" do
 
