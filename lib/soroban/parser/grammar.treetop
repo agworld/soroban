@@ -42,7 +42,7 @@ grammar Soroban
     logical ( space? ',' space? logical )*
   end
   rule number
-    float / integer
+    ( float / integer / '-' float / '-' integer )
   end
   rule float
     [0-9]* '.' [0-9]+

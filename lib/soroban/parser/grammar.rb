@@ -1185,6 +1185,18 @@ module Soroban
     r0
   end
 
+  module Number0
+    def float
+      elements[1]
+    end
+  end
+
+  module Number1
+    def integer
+      elements[1]
+    end
+  end
+
   def _nt_number
     start_index = index
     if node_cache[:number].has_key?(index)
@@ -1205,8 +1217,56 @@ module Soroban
       if r2
         r0 = r2
       else
-        @index = i0
-        r0 = nil
+        i3, s3 = index, []
+        if has_terminal?('-', false, index)
+          r4 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure('-')
+          r4 = nil
+        end
+        s3 << r4
+        if r4
+          r5 = _nt_float
+          s3 << r5
+        end
+        if s3.last
+          r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
+          r3.extend(Number0)
+        else
+          @index = i3
+          r3 = nil
+        end
+        if r3
+          r0 = r3
+        else
+          i6, s6 = index, []
+          if has_terminal?('-', false, index)
+            r7 = instantiate_node(SyntaxNode,input, index...(index + 1))
+            @index += 1
+          else
+            terminal_parse_failure('-')
+            r7 = nil
+          end
+          s6 << r7
+          if r7
+            r8 = _nt_integer
+            s6 << r8
+          end
+          if s6.last
+            r6 = instantiate_node(SyntaxNode,input, i6...index, s6)
+            r6.extend(Number1)
+          else
+            @index = i6
+            r6 = nil
+          end
+          if r6
+            r0 = r6
+          else
+            @index = i0
+            r0 = nil
+          end
+        end
       end
     end
 

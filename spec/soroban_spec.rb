@@ -104,4 +104,11 @@ describe "Soroban" do
     }.should raise_error(Soroban::ParseError)
   end
 
+  it "can handle negative numbers" do
+    sheet.set(:A1 => -10)
+    sheet.set(:A2 => "-20")
+    sheet.set(:A3 => '=-10+A2-A1')
+    sheet.A3.should eq(-20)
+  end
+
 end
