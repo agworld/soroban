@@ -31,7 +31,7 @@ module Soroban
     # Set the contents of one or more cells or ranges.
     def set(options_hash)
       options_hash.each do |label_or_range, contents|
-        _debug("setting '#{label_or_range}' to '#{contents}'}")
+        _debug("setting '#{label_or_range}' to '#{contents}'")
         unless range = Soroban::getRange(label_or_range)
           _add(label_or_range, contents)
           next
