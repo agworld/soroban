@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "soroban"
-  s.version = "0.3.1"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jason Hutchens"]
-  s.date = "2012-05-22"
+  s.date = "2013-01-09"
   s.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
   s.email = "jason.hutchens@agworld.com.au"
   s.extra_rdoc_files = [
@@ -28,10 +28,6 @@ Gem::Specification.new do |s|
     "Rakefile",
     "Soroban.gemspec",
     "VERSION",
-    "bugs/issue-096ca8b758759b2b32d9c58a88a2ab05672336b8.yaml",
-    "bugs/issue-2257df466e56d29a07b2ecc2453296d9d1401d77.yaml",
-    "bugs/issue-d84ed3471e4dd2930795446dca750c20700746e0.yaml",
-    "bugs/project.yaml",
     "files/Physics.xlsx",
     "lib/soroban.rb",
     "lib/soroban/cell.rb",
@@ -66,7 +62,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/agworld/soroban"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.24"
   s.summary = "Soroban is a calculating engine that understands Excel formulas."
 
   if s.respond_to? :specification_version then
@@ -77,20 +73,17 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rubyXL>, ["~> 1.2.7"])
       s.add_development_dependency(%q<nokogiri>, [">= 1.4.4"])
       s.add_development_dependency(%q<rubyzip>, [">= 0.9.4"])
-      s.add_development_dependency(%q<ditz>, [">= 0"])
     else
       s.add_dependency(%q<treetop>, ["~> 1.4.10"])
       s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
       s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
       s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
-      s.add_dependency(%q<ditz>, [">= 0"])
     end
   else
     s.add_dependency(%q<treetop>, ["~> 1.4.10"])
     s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
     s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
     s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
-    s.add_dependency(%q<ditz>, [">= 0"])
   end
 end
 
