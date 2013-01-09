@@ -36,8 +36,8 @@ RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.rcov = false
 end
 
-task :treetop do
-  tt lib/soroban/parser/grammar.treetop -o lib/soroban/parser/grammar.rb
+task 'treetop' do
+  system('tt lib/soroban/parser/grammar.treetop -o lib/soroban/parser/grammar.rb')
 end
 
 task :default => :spec
