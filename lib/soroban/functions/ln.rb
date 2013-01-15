@@ -1,4 +1,4 @@
-# Return the minimum of the supplied values, which may be numbers, labels or ranges.
+# Return the natural logarithm of the argument
 Soroban::define :LN => lambda { |val|
   Math.log(val)
 }

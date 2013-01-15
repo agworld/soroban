@@ -116,4 +116,10 @@ describe "Soroban" do
     sheet.A1.should eq(1.0)
   end
 
+  it "can calculate exponentials" do
+    sheet.set(:A1 => 1)
+    sheet.set(:A2 => "=EXP(A1)")
+    sheet.A2.should be_within(1e-6).of(Math::E)
+  end
+
 end
