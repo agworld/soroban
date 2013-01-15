@@ -113,7 +113,7 @@ describe "Soroban" do
 
   it "can calculate natural logarithms" do
     sheet.set(:A1 => "=LN(#{Math::E})")
-    sheet.A1.should eq(1.0)
+    sheet.A1.should be_within(1e-6).of(1.0)
   end
 
   it "can calculate exponentials" do
