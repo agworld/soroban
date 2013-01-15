@@ -111,4 +111,9 @@ describe "Soroban" do
     sheet.A3.should eq(-20)
   end
 
+  it "can calculate natural logarithms" do
+    sheet.set(:A1 => "=LN(#{Math::E})")
+    sheet.A1.should eq(1.0)
+  end
+
 end

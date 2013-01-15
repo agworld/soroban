@@ -29,6 +29,10 @@ module Soroban
     def get
       raise Soroban::RecursionError, "Loop detected when evaluating '#{@excel}'" if @touched
       @touched = true
+      # TODO: cache the value of the cell, and only recalculate it if any of the
+      #       dependencies are dirty; also, set outselves as dirty until we've
+      #       done that; will need to set the original inputs to non-dirty once
+      #       all outputs have been farmed
       eval(@ruby, @binding)
     rescue TypeError, RangeError, ZeroDivisionError
       nil
