@@ -134,7 +134,7 @@ Soroban implements some Excel functions, but you may find that you need more
 than those. In that case, it's easy to add more.
 
 ```ruby
-Soroban::functions            # => ["MIN", "VLOOKUP", "AND", "MAX", "OR", "NOT", "IF", "AVERAGE", "SUM"] 
+Soroban::functions            # => ["AVERAGE", "SUM", "VLOOKUP", "IF", "AND", "OR", "NOT", "MAX", "MIN", "LN", "EXP"]
 
 Soroban::define :FOO => lambda { |lo, hi|
   raise ArgumentError if lo > hi
@@ -160,4 +160,4 @@ Contributing to Soroban
 Copyright
 ---------
 
-Copyright (c) 2012 Agworld Pty. Ltd. See LICENSE.txt for further details.
+Copyright (c) 2013 Agworld Pty. Ltd. See LICENSE.txt for further details.
