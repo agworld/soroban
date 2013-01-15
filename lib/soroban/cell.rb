@@ -10,18 +10,25 @@ module Soroban
     attr_reader :excel, :ruby, :dependencies
 
     # Cells are initialised with a binding to allow formulas to be executed
-    # within the context of the sheet which ownes the cell.
+    # within the context of the sheet which owns the cell.
     def initialize(context)
       @dependencies = []
       @binding = context
       @touched = false
+      @value = nil
     end
 
     # Set the contents of a cell, and store the executable Ruby version.
     def set(contents)
       contents = contents.to_s
       contents = "'#{contents}'" if Soroban::unknown?(contents)
+      clear
       @excel, @ruby = contents, _convert(contents)
+    end
+
+    # Clear the cached value of a cell to force it to be recalculated
+    def clear
+      @value = nil
     end
 
     # Eval the Ruby version of the string contents within the context of the
@@ -29,11 +36,7 @@ module Soroban
     def get
       raise Soroban::RecursionError, "Loop detected when evaluating '#{@excel}'" if @touched
       @touched = true
-      # TODO: cache the value of the cell, and only recalculate it if any of the
-      #       dependencies are dirty; also, set outselves as dirty until we've
-      #       done that; will need to set the original inputs to non-dirty once
-      #       all outputs have been farmed
-      eval(@ruby, @binding)
+      @value ||= eval(@ruby, @binding)
     rescue TypeError, RangeError, ZeroDivisionError
       nil
     ensure

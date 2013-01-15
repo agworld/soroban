@@ -14,6 +14,7 @@ module Soroban
     def initialize(logger=nil)
       @logger = logger
       @cells = {}
+      @changes = Hash.new{ |h, k| h[k] = Set.new }
       @bindings = {}
     end
 
@@ -106,6 +107,14 @@ module Soroban
       @logger.debug "SOROBAN: #{message}"
     end
 
+    def _link(name, dependencies)
+      dependencies.each { |target| @changes[target] << name if name != target }
+    end
+
+    def _unlink(name, dependencies)
+      dependencies.each { |target| @changes[target].delete(name) }
+    end
+
     def _add(label, contents)
       internal = "@#{label}"
       _expose(internal, label)
@@ -117,8 +126,22 @@ module Soroban
     def _set(label_or_name, cell, contents)
       label = label_or_name.to_sym
       name = @bindings[label] || label
+      _unlink(name, cell.dependencies)
       cell.set(contents)
       @cells[name] = cell.dependencies
+      _link(name, cell.dependencies)
+      _clear(name)
+    end
+
+    def _clear(name)
+      @changes[name].each do |target|
+        next unless @cells.has_key?(target)
+        begin
+          eval("@#{target.to_s}.clear")
+          _clear(target)
+        rescue
+        end
+      end
     end
 
     def _get(label_or_name, cell)
