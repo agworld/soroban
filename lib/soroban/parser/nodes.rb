@@ -15,6 +15,18 @@ module Soroban
     end
   end
 
+  class IntegerValue < Treetop::Runtime::SyntaxNode
+    def rewrite(value)
+      "#{value.to_f}"
+    end
+  end
+
+  class FloatValue < Treetop::Runtime::SyntaxNode
+    def rewrite(value)
+      "#{value.to_f}"
+    end
+  end
+
   class Function < Treetop::Runtime::SyntaxNode
     def rewrite(value)
       match = /^([^(]*)(.*)$/.match(value)

@@ -45,10 +45,10 @@ grammar Soroban
     ( float / integer / '-' float / '-' integer )
   end
   rule float
-    [0-9]* '.' [0-9]+
+    [0-9]* '.' [0-9]+ <FloatValue>
   end
   rule integer
-    [0-9]+
+    [0-9]+ <IntegerValue>
   end
   rule identifier
     [a-zA-Z] [a-zA-Z0-9]* <Identifier>

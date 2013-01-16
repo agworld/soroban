@@ -154,4 +154,11 @@ describe "Soroban" do
     sheet.get(:input).should eq ('> Threshold')
   end
 
+  it "should use floating point numbers" do
+    sheet.set(:A1 => "20")
+    sheet.set(:A2 => "10")
+    sheet.set(:A3 => "=A2/A1")
+    sheet.A3.should be_within(1e-6).of(0.5)
+  end
+
 end

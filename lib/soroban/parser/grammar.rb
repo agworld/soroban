@@ -1340,7 +1340,7 @@ module Soroban
       end
     end
     if s0.last
-      r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
+      r0 = instantiate_node(FloatValue,input, i0...index, s0)
       r0.extend(Float0)
     else
       @index = i0
@@ -1381,7 +1381,7 @@ module Soroban
       @index = i0
       r0 = nil
     else
-      r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
+      r0 = instantiate_node(IntegerValue,input, i0...index, s0)
     end
 
     node_cache[:integer][start_index] = r0
