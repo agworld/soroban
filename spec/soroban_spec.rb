@@ -75,6 +75,32 @@ describe "Soroban" do
     sheet.Z3.should eq('foo')
   end
 
+  it "can retrieve bound variables in multiple ways" do
+    sheet.set(:A1 => 'life')
+    sheet.A1.should eq('life')
+    sheet.get(:A1).should eq('life')
+    sheet.get('A1').should eq('life')
+    sheet.A1 = 'death'
+    sheet.A1.should eq('death')
+    sheet.get(:A1).should eq('death')
+    sheet.get('A1').should eq('death')
+    sheet.bind(:foo => :A1)
+    sheet.set('foo' => 'win')
+    sheet.A1.should eq('win')
+    sheet.get(:A1).should eq('win')
+    sheet.get('A1').should eq('win')
+    sheet.foo.should eq('win')
+    sheet.get(:foo).should eq('win')
+    sheet.get('foo').should eq('win')
+    sheet.foo = 'lose'
+    sheet.A1.should eq('lose')
+    sheet.get(:A1).should eq('lose')
+    sheet.get('A1').should eq('lose')
+    sheet.foo.should eq('lose')
+    sheet.get(:foo).should eq('lose')
+    sheet.get('foo').should eq('lose')
+  end
+
   it "can define new functions" do
     Soroban::define :FOO => lambda { |a, b| 2 * a + b / 2 }
     sheet.A1 = 7
@@ -120,6 +146,12 @@ describe "Soroban" do
     sheet.set(:A1 => 1)
     sheet.set(:A2 => "=EXP(A1)")
     sheet.A2.should be_within(1e-6).of(Math::E)
+  end
+
+  it "can use special symbols in values" do
+    sheet.set(:A1 => "> Threshold")
+    sheet.bind(:input => :A1)
+    sheet.get(:input).should eq ('> Threshold')
   end
 
 end

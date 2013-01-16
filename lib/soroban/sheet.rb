@@ -116,6 +116,12 @@ module Soroban
     end
 
     def _add(label, contents)
+      name = @bindings[label.to_sym] || label
+      if cells.has_key?(name)
+        cell = eval("@#{name}", binding)
+        cell.set(contents)
+        return
+      end
       internal = "@#{label}"
       _expose(internal, label)
       cell = Cell.new(binding)
