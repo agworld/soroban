@@ -151,7 +151,7 @@ describe "Soroban" do
   it "can use special symbols in values" do
     sheet.set(:A1 => "> Threshold")
     sheet.bind(:input => :A1)
-    sheet.get(:input).should eq ('> Threshold')
+    sheet.get(:input).should eq('> Threshold')
   end
 
   it "should use floating point numbers" do
