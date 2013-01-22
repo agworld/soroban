@@ -2,6 +2,7 @@ require 'soroban/helpers'
 require 'soroban/functions'
 require 'soroban/label_walker'
 require 'soroban/value_walker'
+require 'soroban/tabulator'
 require 'soroban/cell'
 
 module Soroban
@@ -14,8 +15,48 @@ module Soroban
     def initialize(logger=nil)
       @logger = logger
       @cells = {}
+      @compiled = {}
       @changes = Hash.new{ |h, k| h[k] = Set.new }
       @bindings = {}
+    end
+
+    def factory(name)
+      eval(self.to_ruby(name), TOPLEVEL_BINDING)
+      Object::const_get('Soroban').const_get('Model').const_get(name).new
+    end
+
+    # Return a string containing a ruby class that implements the sheet. You can
+    # call eval() on this string to create the class, which you can then
+    # instantiate. Set inputs on the instance and read outputs off.
+    def to_ruby(class_name)
+      data = []
+      data << "module Soroban"
+      data << "module Model"
+      data << "class #{class_name}"
+      data << "  def initialize"
+      data << "    @cache = {}"
+      data << "    @cells = {"
+      data << @compiled.map do |label, cell|
+        "      :#{label} => lambda { @cache[:#{label}] ||= #{cell.to_compiled_ruby} }"
+      end.join(",\n")
+      data << "    }"
+      data << "  end"
+      data << "  def clear"
+      data << "    @cache.clear"
+      data << "  end"
+      bindings.each do |name, cell|
+        data << "  def #{name}"
+        data << "    @cells[:#{cell}].call"
+        data << "  end"
+        data << "  def #{name}=(value)"
+        data << "    self.clear"
+        data << "    @cells[:#{cell}] = lambda { @cache[:#{cell}] = value }"
+        data << "  end"
+      end
+      data << "end"
+      data << "end"
+      data << "end"
+      data.join("\n")
     end
 
     # Used for calling dynamically defined functions, and for creating new
@@ -125,6 +166,7 @@ module Soroban
       internal = "@#{label}"
       _expose(internal, label)
       cell = Cell.new(binding)
+      @compiled[label] = cell
       _set(label, cell, contents)
       instance_variable_set(internal, cell)
     end
