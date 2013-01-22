@@ -34,6 +34,11 @@ module Soroban
       data << "module Model"
       data << "class #{class_name}"
       data << "  def initialize"
+      data << "    @binds = {"
+      data << bindings.map do |name, cell|
+        "      '#{name}' => :#{cell}"
+      end.join(",\n")
+      data << "    }"
       data << "    @cache = {}"
       data << "    @cells = {"
       data << @compiled.map do |label, cell|
@@ -44,18 +49,25 @@ module Soroban
       data << "  def clear"
       data << "    @cache.clear"
       data << "  end"
+      data << "  def get(name)"
+      data << "    @cells[@binds[name]].call"
+      data << "  end"
+      data << "  def set(name, value)"
+      data << "    self.clear"
+      data << "    @cells[@binds[name]] = lambda { @cache[@binds[name]] ||= value }"
+      data << "  end"
       bindings.each do |name, cell|
         data << "  def #{name}"
-        data << "    @cells[:#{cell}].call"
+        data << "    get('#{name}')"
         data << "  end"
         data << "  def #{name}=(value)"
-        data << "    self.clear"
-        data << "    @cells[:#{cell}] = lambda { @cache[:#{cell}] = value }"
+        data << "    set('#{name}', value)"
         data << "  end"
       end
       data << "end"
       data << "end"
       data << "end"
+      puts data.join("\n")
       data.join("\n")
     end
 
