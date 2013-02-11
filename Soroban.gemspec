@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "soroban"
-  s.version = "0.5.4"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jason Hutchens"]
-  s.date = "2013-01-18"
+  s.date = "2013-02-11"
   s.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
   s.email = "jason.hutchens@agworld.com.au"
   s.extra_rdoc_files = [
@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
     "lib/soroban/parser/nodes.rb",
     "lib/soroban/parser/rewrite.rb",
     "lib/soroban/sheet.rb",
+    "lib/soroban/tabulator.rb",
     "lib/soroban/value_walker.rb",
     "spec/documentation_spec.rb",
     "spec/import_spec.rb",
@@ -64,7 +65,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/agworld/soroban"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.23"
   s.summary = "Soroban is a calculating engine that understands Excel formulas."
 
   if s.respond_to? :specification_version then
@@ -75,17 +76,20 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rubyXL>, ["~> 1.2.7"])
       s.add_development_dependency(%q<nokogiri>, [">= 1.4.4"])
       s.add_development_dependency(%q<rubyzip>, [">= 0.9.4"])
+      s.add_development_dependency(%q<awesome_print>, [">= 0"])
     else
       s.add_dependency(%q<treetop>, ["~> 1.4.10"])
       s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
       s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
       s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
+      s.add_dependency(%q<awesome_print>, [">= 0"])
     end
   else
     s.add_dependency(%q<treetop>, ["~> 1.4.10"])
     s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
     s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
     s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
+    s.add_dependency(%q<awesome_print>, [">= 0"])
   end
 end
 
