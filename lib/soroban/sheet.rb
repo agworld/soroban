@@ -5,6 +5,8 @@ require 'soroban/value_walker'
 require 'soroban/tabulator'
 require 'soroban/cell'
 
+require 'set'
+
 module Soroban
 
   # A container for cells.
