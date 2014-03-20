@@ -61,12 +61,6 @@ describe "Soroban" do
     sheet.bindings.keys.should include :output
     sheet.bindings.values.should include :A1
     sheet.bindings.values.should include :A2
-
-    model = sheet.factory('Test')
-    model.input = 5
-    model.output.should eq(25)
-    model.input = 4
-    model.output.should eq(16)
   end
 
   it "can bind variables to ranges" do

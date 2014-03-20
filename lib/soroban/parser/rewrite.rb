@@ -14,37 +14,7 @@ module Treetop
         end
       end
 
-      def to_compiled_ruby
-        if nonterminal?
-          value = ""
-          elements.each { |element| value << element.to_compiled_ruby }
-          compile_ruby(value)
-        else
-          compile_ruby(text_value)
-        end
-      end
-
-      def to_javascript(dependencies)
-        if nonterminal?
-          value = ""
-          elements.each { |element| value << element.to_javascript(dependencies) }
-          _add_dependency(dependencies, extract(value))
-          rewrite_javascript(value)
-        else
-          _add_dependency(dependencies, extract(text_value))
-          rewrite_javascript(text_value)
-        end
-      end
-
-      def compile_ruby(value)
-        value
-      end
-
       def rewrite_ruby(value)
-        value
-      end
-
-      def rewrite_javascript(value)
         value
       end
 

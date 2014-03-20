@@ -147,13 +147,6 @@ s.g = "=FOO(10, 20)"
 puts s.g              # => 17
 ```
 
-Compilation
------------
-
-Rather than interact with a `Soroban::Sheet` object at runtime, you can compile
-the sheet into a Ruby or JavaScript class which you can then either save out to
-a file or evaluate directly. This is slightly less flexible, but more efficient.
-
 Contributing to Soroban
 -----------------------
  
@@ -168,4 +161,4 @@ Contributing to Soroban
 Copyright
 ---------
 
-Copyright (c) 2013 Agworld Pty. Ltd. See LICENSE.txt for further details.
+Copyright (c) 2014 Agworld Pty. Ltd. See LICENSE.txt for further details.

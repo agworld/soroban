@@ -7,7 +7,7 @@ module Soroban
   # representation of its contents, and the executable Ruby version of same, as
   # generated via a rewrite grammar. Cells also store their dependencies.
   class Cell
-    attr_reader :excel, :javascript, :dependencies
+    attr_reader :excel, :dependencies
 
     # Cells are initialised with a binding to allow formulas to be executed
     # within the context of the sheet which owns the cell.
@@ -18,10 +18,6 @@ module Soroban
       @value = nil
     end
 
-    def to_compiled_ruby
-      @tree.to_compiled_ruby
-    end
-
     # Set the contents of a cell, and store the executable Ruby version.
     def set(contents)
       contents = contents.to_s
@@ -30,7 +26,7 @@ module Soroban
       @excel = contents
       @tree = Soroban::parser.parse(@excel)
       raise Soroban::ParseError, Soroban::parser.failure_reason if @tree.nil?
-      @ruby = _to_ruby
+      @ruby = @tree.to_ruby(@dependencies.clear)
     end
 
     # Clear the cached value of a cell to force it to be recalculated
@@ -49,17 +45,6 @@ module Soroban
     ensure
       @touched = false
     end
-
-  private
-
-    def _to_ruby
-      @tree.to_ruby(@dependencies.clear)
-    end
-
-    def _to_javascript
-      @tree.to_javascript(@dependencies.clear)
-    end
-
   end
 
 end
