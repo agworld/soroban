@@ -6,10 +6,12 @@ require 'soroban/parser/grammar'
 
 module Soroban
 
-  # A Treetop parser for Excel formulas that can generate valid Ruby expression
-  # via a rewrite operation, and which can build an array of referenced labels.
-  def self.parser
-    @@parser ||= SorobanParser.new
+  class Parser
+    # A Treetop parser for Excel formulas that can generate valid Ruby expression
+    # via a rewrite operation, and which can build an array of referenced labels.
+    def self.instance
+      @@parser ||= ExcelParser.new
+    end
   end
 
 end

@@ -71,12 +71,12 @@ cells you've defined, so you can easily rip them out for persistence.
 ```ruby
 s.F1 = "= E1 + SUM(D1:D5)"
 
-s.missing             # => [:E1, :D1, :D2, :D3, :D4, :D5]
+puts s.missing        # => [:E1, :D1, :D2, :D3, :D4, :D5]
 
 s.E1 = "= D1 ^ D2"
 s.set("D1:D5" => [1,2,3,4,5])
 
-s.missing             # => []
+puts s.missing             # => []
 
 s.cells               # => {:F1=>"= E1 + SUM(D1:D5)", :E1=>"= D1 ^ D2", :D1=>"1", :D2=>"2", :D3=>"3", :D4=>"4", :D5=>"5"}
 ```
@@ -135,7 +135,7 @@ Soroban implements some Excel functions, but you may find that you need more
 than those. In that case, it's easy to add more.
 
 ```ruby
-Soroban::functions            # => ["AVERAGE", "SUM", "VLOOKUP", "IF", "AND", "OR", "NOT", "MAX", "MIN", "LN", "EXP"]
+Soroban::functions            # => ["AND", "AVERAGE", "EXP", "IF", "LN", "MAX", "MIN", "NOT", "OR", "SUM", "VLOOKUP"]
 
 Soroban::define :FOO => lambda { |lo, hi|
   raise ArgumentError if lo > hi
