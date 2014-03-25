@@ -102,15 +102,19 @@ describe "Soroban" do
   end
 
   it "can define new functions" do
-    Soroban::define :FOO => lambda { |a, b| 2 * a + b / 2 }
+    Soroban::Functions.define :FOO => lambda { |a, b| 2 * a + b / 2 }
     sheet.A1 = 7
     sheet.A2 = 8
     sheet.A3 = "=foo(A1, A2)"
     sheet.A3.should eq(18)
-    Soroban::functions.should include 'FOO'
+    Soroban::Functions.all.should include 'FOO'
   end
 
   it "can report on missing cells" do
+    sheet.A3 = "=A2"
+    expected = [:A2]
+    sheet.missing.should =~ expected
+
     sheet.A3 = "=A2+foo(A3:B4)"
     expected = [:A2, :A4, :B3, :B4 ]
     sheet.missing.should =~ expected

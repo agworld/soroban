@@ -1,7 +1,7 @@
 # Return a value from the supplied range by searching the first column for the
 # supplied value, and then reading the result from the matching row.
-Soroban::define :VLOOKUP => lambda { |value, range, col, inexact|
-  fc, fr, tc, tr = Soroban::getRange(range)
+Soroban::Functions.define :VLOOKUP => lambda { |value, range, col, inexact|
+  fc, fr, tc, tr = Soroban::Helpers.getRange(range)
   i = walk("#{fc}#{fr}:#{fc}#{tr}").find_index(value)
   if i.nil?
     nil

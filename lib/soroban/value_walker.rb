@@ -1,6 +1,9 @@
+require 'soroban/errors'
+require 'soroban/label_walker'
+
 module Soroban
 
-  # An enumerable that allows cells in a range to be visited.
+  # An enumerable that allows values of cells in a range to be visited.
   class ValueWalker
 
     include Enumerable
@@ -8,40 +11,37 @@ module Soroban
     # Create a new walker from a supplied range and binding. The binding is
     # required when calculating the value of each visited cell.
     def initialize(range, context)
-      @range, @binding = range, context
-      @walker = LabelWalker.new(range)
+      @_range, @_binding = range, context
+      @_labels = Soroban::LabelWalker.new(range).to_a
     end
 
     # Yield the value of each cell referenced by the supplied range.
     def each
-      @walker.each { |label| yield eval("get('#{label}')", @binding) }
+      @_labels.each { |label| yield eval("get('#{label}')", @_binding) }
     end
 
-    # Retrieve the value of a cell within the range by index
+    # Get the value of a cell within the range by index. Will raise a RangeError
+    # if the index is outside of the range.
     def [](index)
-      labels = @walker.to_a
-      if index < 0 || index >= labels.length
-        raise Soroban::RangeError, "Index #{index} falls outside of '#{@range}'"
+      if index < 0 || index >= @_labels.length
+        raise Soroban::RangeError, "Index #{index} falls outside of '#{@_range}'"
       end
-      eval("get('#{labels[index]}')", @binding)
+      eval("get('#{@_labels[index]}')", @_binding)
     end
 
-    # Set the value of a cell within the range by index
+    # Set the value of a cell within the range by index. Will raise a RangeError
+    # if the index is outside of the range.
     def []=(index, value)
-      count = 0
-      @walker.each do |label|
-        if index == count
-          eval("@#{label}.set('#{value}')", @binding)
-          return value
-        end
-        count += 1
+      if index < 0 || index >= @_labels.length
+        raise Soroban::RangeError, "Index #{index} falls outside of '#{@_range}'"
       end
-      raise Soroban::RangeError, "Index #{index} falls outside of '#{@range}'"
+      eval("@#{@_labels[index]}.set('#{value}')", @_binding)
+      return value
     end
 
     # Display the range if the user outputs the binding directly
     def to_s
-      @range
+      @_range
     end
     alias inspect to_s
 

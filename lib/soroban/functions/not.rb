@@ -1,4 +1,2 @@
 # Return the logical not of the supplied boolean.
-Soroban::define :NOT => lambda { |val|
-  !val
-}
+Soroban::Functions.define :NOT => lambda { |val| !val }
