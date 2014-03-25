@@ -93,7 +93,7 @@ BINDINGS = {
   :force => :B3
 }
 
-s = Soroban::Import::rubyXL("files/Physics.xlsx", 0, BINDINGS )
+s = Soroban::Import::rubyXL("files/Physics.xlsx", 0, BINDINGS)
 
 s.planet = 'Earth'
 s.mass = 80
