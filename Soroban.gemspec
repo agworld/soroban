@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "soroban"
-  s.version = "0.7.3"
+  s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jason Hutchens"]
-  s.date = "2014-03-20"
+  s.date = "2014-03-25"
   s.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
   s.email = "jason.hutchens@agworld.com.au"
   s.extra_rdoc_files = [
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     "files/Physics.xlsx",
     "lib/soroban.rb",
     "lib/soroban/cell.rb",
-    "lib/soroban/error.rb",
+    "lib/soroban/errors.rb",
     "lib/soroban/functions.rb",
     "lib/soroban/functions/and.rb",
     "lib/soroban/functions/average.rb",
