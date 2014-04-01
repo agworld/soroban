@@ -60,6 +60,8 @@ module Soroban
   private
 
     def _normalise_value!
+      return if @value.respond_to?( :length ) && @value.length > 0
+
       begin
         @value = @value.to_f
       rescue NoMethodError
