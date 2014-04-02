@@ -1,3 +1,27 @@
+# Ideally we would like to extend this grammar so that numerical operations ( multiplicative, etc )
+# co-erce their arguments to numerics when they are compiled.
+#
+# eg. "=A1*A3+2" might become "=Float(@A1.get)*Float(@A3.get)+Float(2)"
+#
+# We would use Float as it's more strict about the inputs and better reflects how
+# Excel works when using non numeric strings. The danger in to_f is that it's too loose
+# so situations where a calculation SHOULD not work are less likely to happen. Essentially
+# the output doesn't match what you would see in Excel. 
+#
+# Currently we don't have the time to put into making this grammar correct so instead we
+# have co-erced all nils to Float at runtime using Float(). This will probably fix most situations
+# and still not work in situations where Excel also would not have an output. 
+#
+# The user is then left to handle the thrown exception or not - a situation they would need to 
+# do whether the grammar was fixed/refined or not.
+#
+# A situation where the above fix would not work is a VLOOKUP or other function where a
+# blank string is an expected input ...
+#
+# There is a pending spec left in the soroban spec that will detect whenever this situation has
+# been rectified. When COUNTBLANK() really works we know that the cached cell value is not being
+# coerced but we are compiling to coerced language/s correctly. 
+# 
 grammar Soroban
   rule formula
     '=' space? logical <Formula> / string / number / boolean
