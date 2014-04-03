@@ -7,16 +7,12 @@ group :development do
   gem "nokogiri", ">= 1.4.4"
   gem "rubyzip", ">= 0.9.4"
   gem "awesome_print"
-  gem "byebug"
 end
 
 group :test do
-  gem "guard"
-  gem "guard-rspec"
   gem "rake"
-  gem "rspec", "~> 2.12.0"
+  gem "rspec", "~> 2.12"
   gem "yard", "~> 0.7"
-  gem "byebug"
 end
 
 group :document do
