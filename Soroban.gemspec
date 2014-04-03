@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "soroban"
-  s.version = "0.7.2"
+  s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jason Hutchens"]
-  s.date = "2013-09-03"
+  s.date = "2014-03-25"
   s.description = "Soroban makes it easy to extract and execute formulas from Excel spreadsheets. It rewrites Excel formulas as Ruby expressions, and allows you to bind named variables to spreadsheet cells to easily manipulate inputs and capture outputs."
   s.email = "jason.hutchens@agworld.com.au"
   s.extra_rdoc_files = [
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     "files/Physics.xlsx",
     "lib/soroban.rb",
     "lib/soroban/cell.rb",
-    "lib/soroban/error.rb",
+    "lib/soroban/errors.rb",
     "lib/soroban/functions.rb",
     "lib/soroban/functions/and.rb",
     "lib/soroban/functions/average.rb",
@@ -55,7 +55,6 @@ Gem::Specification.new do |s|
     "lib/soroban/parser/nodes.rb",
     "lib/soroban/parser/rewrite.rb",
     "lib/soroban/sheet.rb",
-    "lib/soroban/tabulator.rb",
     "lib/soroban/value_walker.rb",
     "spec/documentation_spec.rb",
     "spec/import_spec.rb",
@@ -76,20 +75,17 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rubyXL>, ["~> 1.2.7"])
       s.add_development_dependency(%q<nokogiri>, [">= 1.4.4"])
       s.add_development_dependency(%q<rubyzip>, [">= 0.9.4"])
-      s.add_development_dependency(%q<awesome_print>, [">= 0"])
     else
       s.add_dependency(%q<treetop>, ["~> 1.4.10"])
       s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
       s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
       s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
-      s.add_dependency(%q<awesome_print>, [">= 0"])
     end
   else
     s.add_dependency(%q<treetop>, ["~> 1.4.10"])
     s.add_dependency(%q<rubyXL>, ["~> 1.2.7"])
     s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
     s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
-    s.add_dependency(%q<awesome_print>, [">= 0"])
   end
 end
 

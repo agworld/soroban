@@ -1,4 +1,6 @@
 # Logical and of supplied arguments, which may be booleans, labels or ranges.
-Soroban::define :AND => lambda { |*args|
-  Soroban::getValues(binding, *args).reduce(true) { |s, a| s && a }
+# Note that the reduce call will short-circuit as long as the |l, r| arguments
+# are used in the correct order.
+Soroban::Functions.define :AND => lambda { |*args|
+  Soroban::Helpers.getValues(binding, *args).reduce(true) { |l, r| l && r }
 }

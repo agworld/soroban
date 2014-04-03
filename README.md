@@ -71,12 +71,12 @@ cells you've defined, so you can easily rip them out for persistence.
 ```ruby
 s.F1 = "= E1 + SUM(D1:D5)"
 
-s.missing             # => [:E1, :D1, :D2, :D3, :D4, :D5]
+puts s.missing        # => [:E1, :D1, :D2, :D3, :D4, :D5]
 
 s.E1 = "= D1 ^ D2"
 s.set("D1:D5" => [1,2,3,4,5])
 
-s.missing             # => []
+puts s.missing             # => []
 
 s.cells               # => {:F1=>"= E1 + SUM(D1:D5)", :E1=>"= D1 ^ D2", :D1=>"1", :D2=>"2", :D3=>"3", :D4=>"4", :D5=>"5"}
 ```
@@ -93,7 +93,7 @@ BINDINGS = {
   :force => :B3
 }
 
-s = Soroban::Import::rubyXL("files/Physics.xlsx", 0, BINDINGS )
+s = Soroban::Import::rubyXL("files/Physics.xlsx", 0, BINDINGS)
 
 s.planet = 'Earth'
 s.mass = 80
@@ -135,7 +135,7 @@ Soroban implements some Excel functions, but you may find that you need more
 than those. In that case, it's easy to add more.
 
 ```ruby
-Soroban::functions            # => ["AVERAGE", "SUM", "VLOOKUP", "IF", "AND", "OR", "NOT", "MAX", "MIN", "LN", "EXP"]
+Soroban::functions            # => ["AND", "AVERAGE", "EXP", "IF", "LN", "MAX", "MIN", "NOT", "OR", "SUM", "VLOOKUP"]
 
 Soroban::define :FOO => lambda { |lo, hi|
   raise ArgumentError if lo > hi
@@ -146,13 +146,6 @@ s.g = "=FOO(10, 20)"
 
 puts s.g              # => 17
 ```
-
-Compilation
------------
-
-Rather than interact with a `Soroban::Sheet` object at runtime, you can compile
-the sheet into a Ruby or JavaScript class which you can then either save out to
-a file or evaluate directly. This is slightly less flexible, but more efficient.
 
 Contributing to Soroban
 -----------------------
@@ -168,4 +161,4 @@ Contributing to Soroban
 Copyright
 ---------
 
-Copyright (c) 2013 Agworld Pty. Ltd. See LICENSE.txt for further details.
+Copyright (c) 2014 Agworld Pty. Ltd. See LICENSE.txt for further details.

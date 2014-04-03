@@ -1,4 +1,2 @@
 # Return e raised to the power of the argument
-Soroban::define :EXP => lambda { |val|
-  Math.exp(val)
-}
+Soroban::Functions.define :EXP => lambda { |val| Math.exp(val) }

@@ -7,4 +7,6 @@ doc
 pkg
 *.swp
 .rvmrc
+.ruby-version
+.ruby-gemset
 .ditz-config
