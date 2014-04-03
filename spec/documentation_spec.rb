@@ -66,7 +66,21 @@ describe "Documentation" do
 
   it "functions work" do
 #   Soroban::functions    # => ["AND", "AVERAGE", "EXP", "IF", "LN", "MAX", "MIN", "NOT", "OR", "SUM", "VLOOKUP"]
-    Soroban::Functions.all.should =~ ["AND", "AVERAGE", "EXP", "IF", "LN", "MAX", "MIN", "NOT", "OR", "SUM", "VLOOKUP"]
+    Soroban::Functions.all.should =~ [
+      "AND",
+      "AVERAGE",
+      "EXP",
+      "IF",
+      "LN",
+      "MAX",
+      "MIN",
+      "NOT",
+      "OR",
+      "SUM",
+      "VLOOKUP",
+      "COUNTBLANK",
+      "ISBLANK"
+    ]
 
     Soroban::Functions.define :FOO => lambda { |lo, hi|
       raise ArgumentError if lo > hi

@@ -7,6 +7,6 @@
 #
 # It supports one cell as an input
 #
-Soroban::define :ISBLANK => lambda { |val|
+Soroban::Functions.define :ISBLANK => lambda { |val|
   val.to_s.length.zero?
 }
