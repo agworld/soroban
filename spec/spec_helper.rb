@@ -10,7 +10,6 @@ rescue LoadError
 end
 
 require 'soroban'
-require "byebug"
 
 ENV["RUBY_ENV"] = "test"
 

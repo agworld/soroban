@@ -14,7 +14,7 @@ module Soroban
         return @parser if @parser
         path = Pathname.new( File.dirname( __FILE__ ) ).join( "parser/grammar" ).to_s
         Treetop.load( path )
-        @parser ||= SorobanParser.new
+        @parser ||= ExcelParser.new
       else
         @@parser ||= SorobanParser.new
       end
