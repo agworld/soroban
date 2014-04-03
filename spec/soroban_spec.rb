@@ -165,4 +165,20 @@ describe "Soroban" do
     sheet.A3.should be_within(1e-6).of(0.5)
   end
 
+  it "can add blank strings assuming the string is 0" do
+    sheet.set( :A1 => "" )
+    sheet.set( :A2 => "3" )
+    sheet.set( :A3 => "=A1+A2" )
+    sheet.A3.should == 3
+  end
+
+  it "can count blank cells" do
+    pending( "Grammar should convert values JIT" ) do
+      sheet.set( :A1 => "" )
+      sheet.set( :A2 => "3" )
+      sheet.set( :A3 => "=COUNTBLANK(A1:A2)" )
+      sheet.A3.should == 1
+    end
+  end
+
 end

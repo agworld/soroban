@@ -6,11 +6,12 @@ group :development do
   gem "rubyXL", "~> 1.2.7"
   gem "nokogiri", ">= 1.4.4"
   gem "rubyzip", ">= 0.9.4"
+  gem "awesome_print"
 end
 
 group :test do
   gem "rake"
-  gem "rspec", "~> 2.12.0"
+  gem "rspec", "~> 2.12"
   gem "yard", "~> 0.7"
 end
 

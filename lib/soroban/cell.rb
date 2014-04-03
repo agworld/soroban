@@ -57,10 +57,16 @@ module Soroban
     def get
       raise Soroban::RecursionError, "Loop detected when evaluating '#{@excel}'" if @_touched
       @_touched = true
-      @_value ||= eval(@ruby, @_binding)
-      @_value
-    rescue TypeError, RangeError, ZeroDivisionError
-      nil
+      return @_value if @_value
+      @_value = eval(@ruby, @_binding)
+      _normalise_value!
+      return @_value
+    rescue TypeError => e
+      @_value = nil
+    rescue RangeError => e
+      @_value = nil
+    rescue ZeroDivisionError => e
+      @_value = nil
     ensure
       @_touched = false
     end
@@ -73,6 +79,18 @@ module Soroban
     # Set with that enumerable (with |=)
     def add_dependencies(labels)
       @dependencies |= [labels].flatten unless labels.nil?
+    end
+
+    private
+
+    def _normalise_value!
+      return if @_value.respond_to?( :length ) && @_value.length > 0
+
+      begin
+        @_value = @_value.to_f
+      rescue NoMethodError
+        # Do not mutate value
+      end
     end
   end
 
