@@ -16,7 +16,7 @@ module Soroban
         Treetop.load( path )
         @parser ||= ExcelParser.new
       else
-        @@parser ||= SorobanParser.new
+        @@parser ||= ExcelParser.new
       end
     end
   end
