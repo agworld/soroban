@@ -29,7 +29,7 @@ module Soroban
       clear
       @excel = contents
       @tree = Soroban::parser.parse(@excel)
-      raise Soroban::ParseError, Soroban::parser.failure_reason if @tree.nil?
+      raise Soroban::ParseError, "#{ Soroban::parser.failure_reason } inside #{ @excel }" if @tree.nil?
       @ruby = _to_ruby
     end
 
