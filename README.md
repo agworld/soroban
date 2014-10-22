@@ -3,17 +3,16 @@ Soroban
 
 Soroban is a calculating engine that understands Excel formulas.
 
-[![Code Climate](https://codeclimate.com/github/agworld/soroban.png)](https://codeclimate.com/github/agworld/soroban)
+[![Gem Version](https://badge.fury.io/rb/soroban.svg)](http://badge.fury.io/rb/soroban)
 [![Dependency Status](https://gemnasium.com/agworld/soroban.png)](https://gemnasium.com/agworld/soroban)
 [![Build Status](https://secure.travis-ci.org/agworld/soroban.png)](http://travis-ci.org/#!/agworld/soroban)
+[![Code Climate](https://codeclimate.com/github/agworld/soroban.png)](https://codeclimate.com/github/agworld/soroban)
 
 
 Getting Started
 ---------------
 
-Simply `sudo gem install soroban` and then `require 'soroban'` in your code.
-
-Look at the examples on this page, the [tests](https://github.com/agworld/soroban/blob/master/spec/soroban_spec.rb) and the [API docs](http://rubydoc.info/github/agworld/soroban/master/frames) to get up to speed.
+Apart from the examples on this page, look at the [tests](https://github.com/agworld/soroban/blob/master/spec/soroban_spec.rb) and the [API docs](http://rubydoc.info/github/agworld/soroban/master/frames) to get up to speed.
 
 Example Usage
 -------------
