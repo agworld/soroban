@@ -165,4 +165,11 @@ describe "Soroban" do
     sheet.A3.should be_within(1e-6).of(0.5)
   end
 
+  it "supports absolute cell references" do
+    sheet.set(:A1 => "1")
+    sheet.set(:A2 => "2")
+    sheet.set(:A3 => "=$A$2 + $A$1")
+    sheet.A3.should eq(3)
+  end
+
 end

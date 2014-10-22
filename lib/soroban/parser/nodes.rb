@@ -9,10 +9,10 @@ module Soroban
 
     class Identifier < Treetop::Runtime::SyntaxNode
       def rewrite_ruby(value)
-        "@#{value}.get"
+        "@#{value.gsub('$', '')}.get"
       end
       def extract_labels(value)
-        value.to_sym
+        value.gsub('$', '').to_sym
       end
     end
 

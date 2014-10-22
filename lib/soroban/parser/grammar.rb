@@ -2,6 +2,7 @@
 
 
 module Soroban
+
   module Excel
     include Treetop::Runtime
 
@@ -1393,6 +1394,9 @@ module Soroban
     module Identifier0
     end
 
+    module Identifier1
+    end
+
     def _nt_identifier
       start_index = index
       if node_cache[:identifier].has_key?(index)
@@ -1404,38 +1408,125 @@ module Soroban
         return cached
       end
 
-      i0, s0 = index, []
+      i0 = index
+      i1, s1 = index, []
       if has_terminal?('\G[a-zA-Z]', true, index)
-        r1 = true
+        r2 = true
         @index += 1
       else
-        r1 = nil
+        r2 = nil
       end
-      s0 << r1
-      if r1
-        s2, i2 = [], index
+      s1 << r2
+      if r2
+        s3, i3 = [], index
         loop do
           if has_terminal?('\G[a-zA-Z0-9]', true, index)
-            r3 = true
+            r4 = true
             @index += 1
           else
-            r3 = nil
+            r4 = nil
           end
-          if r3
-            s2 << r3
+          if r4
+            s3 << r4
           else
             break
           end
         end
-        r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
-        s0 << r2
+        r3 = instantiate_node(SyntaxNode,input, i3...index, s3)
+        s1 << r3
       end
-      if s0.last
-        r0 = instantiate_node(Identifier,input, i0...index, s0)
-        r0.extend(Identifier0)
+      if s1.last
+        r1 = instantiate_node(Identifier,input, i1...index, s1)
+        r1.extend(Identifier0)
       else
-        @index = i0
-        r0 = nil
+        @index = i1
+        r1 = nil
+      end
+      if r1
+        r0 = r1
+      else
+        i5, s5 = index, []
+        if has_terminal?('$', false, index)
+          r6 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure('$')
+          r6 = nil
+        end
+        s5 << r6
+        if r6
+          s7, i7 = [], index
+          loop do
+            if has_terminal?('\G[A-Za-z]', true, index)
+              r8 = true
+              @index += 1
+            else
+              r8 = nil
+            end
+            if r8
+              s7 << r8
+            else
+              break
+            end
+          end
+          if s7.empty?
+            @index = i7
+            r7 = nil
+          else
+            r7 = instantiate_node(SyntaxNode,input, i7...index, s7)
+          end
+          s5 << r7
+          if r7
+            if has_terminal?('$', false, index)
+              r9 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
+            else
+              terminal_parse_failure('$')
+              r9 = nil
+            end
+            s5 << r9
+            if r9
+              if has_terminal?('\G[1-9]', true, index)
+                r10 = true
+                @index += 1
+              else
+                r10 = nil
+              end
+              s5 << r10
+              if r10
+                s11, i11 = [], index
+                loop do
+                  if has_terminal?('\G[0-9]', true, index)
+                    r12 = true
+                    @index += 1
+                  else
+                    r12 = nil
+                  end
+                  if r12
+                    s11 << r12
+                  else
+                    break
+                  end
+                end
+                r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+                s5 << r11
+              end
+            end
+          end
+        end
+        if s5.last
+          r5 = instantiate_node(Identifier,input, i5...index, s5)
+          r5.extend(Identifier1)
+        else
+          @index = i5
+          r5 = nil
+        end
+        if r5
+          r0 = r5
+        else
+          @index = i0
+          r0 = nil
+        end
       end
 
       node_cache[:identifier][start_index] = r0
@@ -1872,5 +1963,6 @@ module Soroban
   class ExcelParser < Treetop::Runtime::CompiledParser
     include Excel
   end
+
 
 end
