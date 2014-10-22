@@ -1,13 +1,12 @@
-Soroban
-=======
-
-Soroban is a calculating engine that understands Excel formulas.
-
 [![Gem Version](https://badge.fury.io/rb/soroban.svg)](http://badge.fury.io/rb/soroban)
 [![Dependency Status](https://gemnasium.com/agworld/soroban.png)](https://gemnasium.com/agworld/soroban)
 [![Build Status](https://secure.travis-ci.org/agworld/soroban.png)](http://travis-ci.org/#!/agworld/soroban)
 [![Code Climate](https://codeclimate.com/github/agworld/soroban.png)](https://codeclimate.com/github/agworld/soroban)
 
+Soroban
+=======
+
+Soroban is a calculating engine that understands Excel formulas.
 
 Getting Started
 ---------------
