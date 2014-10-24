@@ -28,6 +28,12 @@ module Soroban
       end
     end
 
+    class PercentValue < Treetop::Runtime::SyntaxNode
+      def rewrite_ruby(value)
+        "#{value.to_f / 100.0}"
+      end
+    end
+
     class Function < Treetop::Runtime::SyntaxNode
       def rewrite_ruby(value)
         match = /^([^(]*)(.*)$/.match(value)

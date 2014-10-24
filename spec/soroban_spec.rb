@@ -172,4 +172,12 @@ describe "Soroban" do
     sheet.A3.should eq(3)
   end
 
+  it "supports percentages" do
+    sheet.set(:A1 => "7")
+    sheet.set(:A2 => "=A1 + 30 %")
+    sheet.A2.should eq(7.3)
+    sheet.set(:A3 => "=-30.0% + A2")
+    sheet.A3.should eq(7)
+  end
+
 end
